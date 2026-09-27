@@ -1,0 +1,870 @@
+{
+ "categories": [
+  {
+   "handle": "sneakers",
+   "title": "Sneakers",
+   "subs": [
+    "Basses",
+    "Running",
+    "Montantes"
+   ],
+   "tone": 3
+  },
+  {
+   "handle": "sacs",
+   "title": "Sacs",
+   "subs": [
+    "Cabas",
+    "Bandoulière",
+    "Sac à dos"
+   ],
+   "tone": 4
+  },
+  {
+   "handle": "vetements",
+   "title": "Vêtements",
+   "subs": [
+    "Sweats",
+    "Vestes",
+    "T-shirts"
+   ],
+   "tone": 2
+  },
+  {
+   "handle": "accessoires",
+   "title": "Accessoires",
+   "subs": [
+    "Casquettes",
+    "Ceintures",
+    "Lunettes"
+   ],
+   "tone": 5
+  }
+ ],
+ "products": [
+  {
+   "id": "demo-01",
+   "handle": "sneakers-basses-cuir-blanc",
+   "title": "Sneakers basses cuir blanc",
+   "category": "sneakers",
+   "subcategory": "Basses",
+   "color": "Blanc",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "39",
+     "title": "39",
+     "availableForSale": false
+    },
+    {
+     "id": "40",
+     "title": "40",
+     "availableForSale": true
+    },
+    {
+     "id": "41",
+     "title": "41",
+     "availableForSale": true
+    },
+    {
+     "id": "42",
+     "title": "42",
+     "availableForSale": true
+    },
+    {
+     "id": "43",
+     "title": "43",
+     "availableForSale": true
+    },
+    {
+     "id": "44",
+     "title": "44",
+     "availableForSale": true
+    },
+    {
+     "id": "45",
+     "title": "45",
+     "availableForSale": false
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Sneakers basses cuir blanc, vue 1",
+     "tone": 1,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers basses cuir blanc, vue 2",
+     "tone": 2,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers basses cuir blanc, vue 3",
+     "tone": 3,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers basses cuir blanc, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Cuir pleine fleur, semelle cousue, doublure respirante. La paire blanche qui va avec tout.",
+   "details": [
+    "Tige en cuir pleine fleur",
+    "Semelle en caoutchouc cousue",
+    "Doublure en cuir",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": "/models/sneaker.glb"
+  },
+  {
+   "id": "demo-02",
+   "handle": "sneakers-running-daim",
+   "title": "Sneakers running daim",
+   "category": "sneakers",
+   "subcategory": "Running",
+   "color": "Sable",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "39",
+     "title": "39",
+     "availableForSale": false
+    },
+    {
+     "id": "40",
+     "title": "40",
+     "availableForSale": false
+    },
+    {
+     "id": "41",
+     "title": "41",
+     "availableForSale": true
+    },
+    {
+     "id": "42",
+     "title": "42",
+     "availableForSale": true
+    },
+    {
+     "id": "43",
+     "title": "43",
+     "availableForSale": true
+    },
+    {
+     "id": "44",
+     "title": "44",
+     "availableForSale": true
+    },
+    {
+     "id": "45",
+     "title": "45",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Sneakers running daim, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers running daim, vue 2",
+     "tone": 3,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers running daim, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Sneakers running daim, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Daim et mesh technique, semelle légère et amortie. Pour marcher toute la journée.",
+   "details": [
+    "Daim et mesh",
+    "Semelle EVA amortissante",
+    "Languette rembourrée",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-03",
+   "handle": "baskets-montantes-cuir-noir",
+   "title": "Baskets montantes cuir noir",
+   "category": "sneakers",
+   "subcategory": "Montantes",
+   "color": "Noir",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "derniere-piece"
+   ],
+   "variants": [
+    {
+     "id": "39",
+     "title": "39",
+     "availableForSale": true
+    },
+    {
+     "id": "40",
+     "title": "40",
+     "availableForSale": true
+    },
+    {
+     "id": "41",
+     "title": "41",
+     "availableForSale": true
+    },
+    {
+     "id": "42",
+     "title": "42",
+     "availableForSale": true
+    },
+    {
+     "id": "43",
+     "title": "43",
+     "availableForSale": true
+    },
+    {
+     "id": "44",
+     "title": "44",
+     "availableForSale": false
+    },
+    {
+     "id": "45",
+     "title": "45",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Baskets montantes cuir noir, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Baskets montantes cuir noir, vue 2",
+     "tone": 1,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Baskets montantes cuir noir, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Baskets montantes cuir noir, vue 4",
+     "tone": 3,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Montantes en cuir lisse, col matelassé, semelle épaisse. Un modèle qui tient dans le temps.",
+   "details": [
+    "Cuir lisse",
+    "Col matelassé",
+    "Semelle crantée",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-04",
+   "handle": "sac-cabas-cuir",
+   "title": "Sac cabas cuir",
+   "category": "sacs",
+   "subcategory": "Cabas",
+   "color": "Noir",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "Unique",
+     "title": "Unique",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Sac cabas cuir, vue 1",
+     "tone": 1,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Sac cabas cuir, vue 2",
+     "tone": 2,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Sac cabas cuir, vue 3",
+     "tone": 3,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Sac cabas cuir, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Grand cabas en cuir souple, poche intérieure zippée. Il avale un ordinateur 15 pouces.",
+   "details": [
+    "Cuir de vachette souple",
+    "Poche intérieure zippée",
+    "Anses renforcées",
+    "Dimensions : [DIMENSIONS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-05",
+   "handle": "sac-bandouliere-cuir-graine",
+   "title": "Sac bandoulière cuir grainé",
+   "category": "sacs",
+   "subcategory": "Bandoulière",
+   "color": "Camel",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "derniere-piece"
+   ],
+   "variants": [
+    {
+     "id": "Unique",
+     "title": "Unique",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Sac bandoulière cuir grainé, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Sac bandoulière cuir grainé, vue 2",
+     "tone": 3,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Sac bandoulière cuir grainé, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Sac bandoulière cuir grainé, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Petit format, grand caractère. Cuir grainé, fermoir aimanté, bandoulière réglable.",
+   "details": [
+    "Cuir grainé",
+    "Fermoir aimanté",
+    "Bandoulière réglable",
+    "Dimensions : [DIMENSIONS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-06",
+   "handle": "sac-a-dos-nylon-technique",
+   "title": "Sac à dos nylon technique",
+   "category": "sacs",
+   "subcategory": "Sac à dos",
+   "color": "Noir",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [],
+   "variants": [
+    {
+     "id": "Unique",
+     "title": "Unique",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Sac à dos nylon technique, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Sac à dos nylon technique, vue 2",
+     "tone": 1,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Sac à dos nylon technique, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Sac à dos nylon technique, vue 4",
+     "tone": 3,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Nylon déperlant, compartiment ordinateur, poche dos anti-vol. Pensé pour la ville.",
+   "details": [
+    "Nylon déperlant",
+    "Compartiment ordinateur",
+    "Poche anti-vol au dos",
+    "Dimensions : [DIMENSIONS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-07",
+   "handle": "hoodie-molleton-epais",
+   "title": "Hoodie molleton épais",
+   "category": "vetements",
+   "subcategory": "Sweats",
+   "color": "Gris chiné",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "XS",
+     "title": "XS",
+     "availableForSale": false
+    },
+    {
+     "id": "S",
+     "title": "S",
+     "availableForSale": true
+    },
+    {
+     "id": "M",
+     "title": "M",
+     "availableForSale": true
+    },
+    {
+     "id": "L",
+     "title": "L",
+     "availableForSale": true
+    },
+    {
+     "id": "XL",
+     "title": "XL",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Hoodie molleton épais, vue 1",
+     "tone": 1,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Hoodie molleton épais, vue 2",
+     "tone": 2,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Hoodie molleton épais, vue 3",
+     "tone": 3,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Hoodie molleton épais, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Molleton brossé épais, coupe légèrement oversize, capuche doublée. Il garde sa forme lavage après lavage.",
+   "details": [
+    "Coton brossé épais [GRAMMAGE]",
+    "Coupe légèrement oversize",
+    "Capuche doublée",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-08",
+   "handle": "veste-zippee-technique",
+   "title": "Veste zippée technique",
+   "category": "vetements",
+   "subcategory": "Vestes",
+   "color": "Noir",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "XS",
+     "title": "XS",
+     "availableForSale": true
+    },
+    {
+     "id": "S",
+     "title": "S",
+     "availableForSale": true
+    },
+    {
+     "id": "M",
+     "title": "M",
+     "availableForSale": true
+    },
+    {
+     "id": "L",
+     "title": "L",
+     "availableForSale": true
+    },
+    {
+     "id": "XL",
+     "title": "XL",
+     "availableForSale": false
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Veste zippée technique, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Veste zippée technique, vue 2",
+     "tone": 3,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Veste zippée technique, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Veste zippée technique, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Coupe-vent léger et déperlant, capuche rangée dans le col. Se plie dans sa poche.",
+   "details": [
+    "Tissu déperlant",
+    "Capuche escamotable",
+    "Zips étanches",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-09",
+   "handle": "t-shirt-coton-lourd",
+   "title": "T-shirt coton lourd",
+   "category": "vetements",
+   "subcategory": "T-shirts",
+   "color": "Écru",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [],
+   "variants": [
+    {
+     "id": "XS",
+     "title": "XS",
+     "availableForSale": true
+    },
+    {
+     "id": "S",
+     "title": "S",
+     "availableForSale": true
+    },
+    {
+     "id": "M",
+     "title": "M",
+     "availableForSale": true
+    },
+    {
+     "id": "L",
+     "title": "L",
+     "availableForSale": true
+    },
+    {
+     "id": "XL",
+     "title": "XL",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "T-shirt coton lourd, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "T-shirt coton lourd, vue 2",
+     "tone": 1,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "T-shirt coton lourd, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "T-shirt coton lourd, vue 4",
+     "tone": 3,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Jersey de coton épais, col côtelé qui ne se déforme pas. Le t-shirt qu'on rachète.",
+   "details": [
+    "Coton épais [GRAMMAGE]",
+    "Col côtelé renforcé",
+    "Coupe droite",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-10",
+   "handle": "casquette-laine",
+   "title": "Casquette laine",
+   "category": "accessoires",
+   "subcategory": "Casquettes",
+   "color": "Marine",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "nouveau"
+   ],
+   "variants": [
+    {
+     "id": "Unique",
+     "title": "Unique",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Casquette laine, vue 1",
+     "tone": 1,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Casquette laine, vue 2",
+     "tone": 2,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Casquette laine, vue 3",
+     "tone": 3,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Casquette laine, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Laine mélangée, visière incurvée, réglage cuir à l'arrière.",
+   "details": [
+    "Laine mélangée",
+    "Réglage en cuir",
+    "Visière incurvée",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-11",
+   "handle": "ceinture-cuir-boucle-doree",
+   "title": "Ceinture cuir boucle dorée",
+   "category": "accessoires",
+   "subcategory": "Ceintures",
+   "color": "Noir",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [],
+   "variants": [
+    {
+     "id": "85",
+     "title": "85",
+     "availableForSale": true
+    },
+    {
+     "id": "90",
+     "title": "90",
+     "availableForSale": true
+    },
+    {
+     "id": "95",
+     "title": "95",
+     "availableForSale": true
+    },
+    {
+     "id": "100",
+     "title": "100",
+     "availableForSale": true
+    },
+    {
+     "id": "105",
+     "title": "105",
+     "availableForSale": false
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Ceinture cuir boucle dorée, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Ceinture cuir boucle dorée, vue 2",
+     "tone": 3,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Ceinture cuir boucle dorée, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Ceinture cuir boucle dorée, vue 4",
+     "tone": 2,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Cuir lisse de 3 cm, boucle en métal doré brossé. Se coupe à ta taille.",
+   "details": [
+    "Cuir lisse",
+    "Largeur 3 cm",
+    "Boucle métal doré brossé",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  },
+  {
+   "id": "demo-12",
+   "handle": "lunettes-soleil-acetate",
+   "title": "Lunettes de soleil acétate",
+   "category": "accessoires",
+   "subcategory": "Lunettes",
+   "color": "Écaille",
+   "price": null,
+   "compareAtPrice": null,
+   "currency": "EUR",
+   "tags": [
+    "derniere-piece"
+   ],
+   "variants": [
+    {
+     "id": "Unique",
+     "title": "Unique",
+     "availableForSale": true
+    }
+   ],
+   "images": [
+    {
+     "url": null,
+     "altText": "Lunettes de soleil acétate, vue 1",
+     "tone": 2,
+     "caption": "[PHOTO PRODUIT FOND BLANC]"
+    },
+    {
+     "url": null,
+     "altText": "Lunettes de soleil acétate, vue 2",
+     "tone": 1,
+     "caption": "[PHOTO PORTÉE]"
+    },
+    {
+     "url": null,
+     "altText": "Lunettes de soleil acétate, vue 3",
+     "tone": 4,
+     "caption": "[PHOTO DÉTAIL]"
+    },
+    {
+     "url": null,
+     "altText": "Lunettes de soleil acétate, vue 4",
+     "tone": 3,
+     "caption": "[PHOTO DOS]"
+    }
+   ],
+   "description": "Monture en acétate épais, verres catégorie 3 [À CONFIRMER]. Livrées avec étui.",
+   "details": [
+    "Monture en acétate",
+    "Verres [CATÉGORIE]",
+    "Étui et chiffonnette",
+    "Fabrication : [PAYS]"
+   ],
+   "model3d": null
+  }
+ ]
+}

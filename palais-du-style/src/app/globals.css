@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* ---------- tokens ---------- */
+:root {
+  --paper: #f6f6f4;
+  --surface: #ffffff;
+  --ink: #0a0a0a;
+  --ink-2: #52524f;
+  --ink-3: #6e6e6a;
+  --line: #e2e2de;
+  --line-2: #cfcfca;
+  --gold: #c9a24b;
+  --gold-ink: #8a6a1f;
+  --tone-1: #ecebe7;
+  --tone-2: #e3e1dc;
+  --tone-3: #d9d7d1;
+  --tone-4: #cfccc5;
+  --tone-5: #c6c3bb;
+  --scrim: rgb(10 10 10 / 0.42);
+  --hdr: 72px;
+  --gutter: clamp(16px, 3.4vw, 48px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0b0b0a;
+    --surface: #141413;
+    --ink: #f2f1ee;
+    --ink-2: #a5a49f;
+    --ink-3: #8c8b86;
+    --line: #262624;
+    --line-2: #3a3936;
+    --gold: #d2ae5e;
+    --gold-ink: #d2ae5e;
+    --tone-1: #1a1a18;
+    --tone-2: #1f1f1d;
+    --tone-3: #242422;
+    --tone-4: #2a2927;
+    --tone-5: #302f2c;
+    --scrim: rgb(0 0 0 / 0.6);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0b0b0a;
+  --surface: #141413;
+  --ink: #f2f1ee;
+  --ink-2: #a5a49f;
+  --ink-3: #8c8b86;
+  --line: #262624;
+  --line-2: #3a3936;
+  --gold: #d2ae5e;
+  --gold-ink: #d2ae5e;
+  --tone-1: #1a1a18;
+  --tone-2: #1f1f1d;
+  --tone-3: #242422;
+  --tone-4: #2a2927;
+  --tone-5: #302f2c;
+  --scrim: rgb(0 0 0 / 0.6);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
+  --font-serif: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
+  --font-sans: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease-soft: cubic-bezier(0.2, 0.75, 0.15, 1);
+
+  /* échelle typo stricte : 12 14 16 20 28 40 56 84 144 */
+  --text-micro: 12px;
+  --text-micro--line-height: 1.4;
+  --text-small: 14px;
+  --text-small--line-height: 1.5;
+  --text-body: 16px;
+  --text-body--line-height: 1.6;
+  --text-lead: 20px;
+  --text-lead--line-height: 1.5;
+  --text-h4: 28px;
+  --text-h4--line-height: 1.1;
+  --text-h3: clamp(28px, 3vw, 40px);
+  --text-h3--line-height: 1.05;
+  --text-h2: clamp(40px, 4.6vw, 56px);
+  --text-h2--line-height: 1;
+  --text-h1: clamp(40px, 6vw, 84px);
+  --text-h1--line-height: 0.96;
+  --text-display: clamp(62px, 10.4vw, 144px);
+  --text-display--line-height: 0.9;
+}
+
+/* ---------- base ---------- */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  font-weight: 400;
+}
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+::selection {
+  background: var(--gold);
+  color: #0a0a0a;
+}
+
+/* ---------- utilitaires maison ---------- */
+@utility wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility price {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+/* placeholder de contenu : visible, discret, jamais confondu avec du vrai texte */
+@utility ph {
+  text-decoration: underline dotted var(--gold);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* bouton principal / secondaire */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding-inline: 28px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.25s,
+    color 0.25s,
+    border-color 0.25s,
+    transform 0.15s;
+  white-space: nowrap;
+  &:active {
+    transform: scale(0.985);
+  }
+}
+@utility btn-ink {
+  background: var(--ink);
+  color: var(--paper);
+  &:hover {
+    background: color-mix(in srgb, var(--ink) 82%, var(--gold));
+  }
+}
+@utility btn-line {
+  border-color: var(--line-2);
+  color: var(--ink);
+  &:hover {
+    border-color: var(--ink);
+  }
+}
+
+/* soulignement animé des liens de navigation (le filet or est l'accent unique) */
+@utility navlink {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-soft);
+  }
+  &:hover::after,
+  &[aria-current="page"]::after,
+  &[aria-expanded="true"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* bande d'annonce */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* entrée orchestrée du hero (seule animation d'entrée du site) */
+@keyframes hero-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.hero-line {
+  animation: hero-rise 0.95s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+}
+.hero-fade {
+  animation: hero-fade 0.8s 0.5s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-line,
+  .hero-fade {
+    animation: none;
+  }
+}
