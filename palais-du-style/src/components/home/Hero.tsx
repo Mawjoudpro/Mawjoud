@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,7 +12,7 @@ import { IconArrow } from "@/components/ui/Icons";
 // Three.js n'est téléchargé que si la 3D est réellement affichée.
 const SneakerScene = dynamic(() => import("@/components/three/SneakerScene"), { ssr: false });
 
-type Stage = "pending" | "static" | "poster" | "3d";
+type Stage = "static" | "poster" | "3d";
 
 function canShow3D() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
@@ -49,7 +50,9 @@ function whenIdle(cb: () => void) {
 /** `modelUrl` vaut null si le fichier GLB est absent (vérifié au build). */
 export function Hero({ modelUrl }: { modelUrl: string | null }) {
   const section = useRef<HTMLElement>(null);
-  const [stage, setStage] = useState<Stage>("pending");
+  // Avec un modèle, l'image fixe est rendue dès le serveur (bon LCP) et reste affichée
+  // si la 3D est désactivée. Sans modèle, le hero montre l'emplacement photo campagne.
+  const [stage, setStage] = useState<Stage>(modelUrl ? "poster" : "static");
   const [load3D, setLoad3D] = useState(false);
   const onReady = useCallback(() => setStage("3d"), []);
 
@@ -58,8 +61,7 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
     let cleanup: (() => void) | undefined;
     queueMicrotask(() => {
       if (cancelled) return;
-      if (!modelUrl || !canShow3D()) return setStage("static");
-      setStage("poster");
+      if (!modelUrl || !canShow3D()) return;
       cleanup = whenIdle(() => setLoad3D(true));
     });
     return () => {
@@ -77,21 +79,22 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
 
   return (
     <section ref={section} className="relative" aria-labelledby="hero-title">
-      <div className="wrap grid min-h-[calc(100svh-100px)] grid-rows-[auto_1fr] gap-4 pt-8 pb-10 lg:max-h-[980px] lg:min-h-[max(620px,calc(100svh-108px))] lg:grid-cols-12 lg:grid-rows-1 lg:gap-8 lg:py-0">
-        <div className="relative z-10 flex flex-col justify-end lg:col-span-6 lg:pb-[clamp(48px,9vh,112px)]">
-          <h1 id="hero-title" className="font-serif text-display tracking-[-0.03em]">
-            {lines.map((l, i) => (
-              <span key={l} className="block overflow-hidden pb-[0.06em]">
-                <span className={`hero-line block ${i === 1 ? "italic" : ""}`} style={{ animationDelay: `${120 + i * 110}ms` }}>
-                  {l}
-                </span>
+      <div className="wrap grid grid-cols-1 gap-y-2 pt-8 pb-12 lg:max-h-[980px] lg:min-h-[max(620px,calc(100svh-108px))] lg:grid-cols-12 lg:grid-rows-[1fr_auto] lg:gap-x-8 lg:gap-y-0 lg:py-0">
+        <h1 id="hero-title" className="relative z-10 font-serif text-display tracking-[-0.03em] lg:col-span-6 lg:self-end">
+          {lines.map((l, i) => (
+            <span key={l} className="block overflow-hidden pb-[0.06em]">
+              <span className={`hero-line block ${i === 1 ? "italic" : ""}`} style={{ animationDelay: `${120 + i * 110}ms` }}>
+                {l}
               </span>
-            ))}
-          </h1>
-          <p className="hero-fade mt-7 max-w-[40ch] text-lead text-ink-2">
+            </span>
+          ))}
+        </h1>
+
+        <div className="relative z-10 order-3 lg:order-none lg:col-span-6 lg:row-start-2 lg:pb-[clamp(48px,9vh,112px)]">
+          <p className="hero-fade mt-2 max-w-[40ch] text-lead text-ink-2 lg:mt-7">
             Sneakers, sacs, vêtements et accessoires de qualité. Moins chers qu&apos;ailleurs, livrés en <span className="ph">{site.deliveryDelay}</span>, payables en 3x ou 4x.
           </p>
-          <div className="hero-fade mt-9 flex flex-col gap-3 sm:flex-row">
+          <div className="hero-fade mt-8 flex flex-col gap-3 sm:flex-row lg:mt-9">
             <Link href="/boutique" className="btn btn-ink">
               Voir les nouveautés <IconArrow width={18} />
             </Link>
@@ -103,20 +106,18 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
 
         <m.div
           style={stage === "3d" || stage === "poster" ? { y, opacity } : undefined}
-          className="relative min-h-[360px] lg:col-span-6 lg:-mr-[var(--gutter)] lg:min-h-0"
+          className="relative order-2 -mx-[var(--gutter)] h-[clamp(260px,72vw,420px)] lg:order-none lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:-mr-[var(--gutter)] lg:h-auto"
         >
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {stage === "static" && (
               <m.div key="static" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
                 <PhotoSlot alt="Campagne Palais du Style" caption="[PHOTO CAMPAGNE]" tone={3} ratio={null} className="h-full" priority sizes="(min-width: 1024px) 50vw, 100vw" />
               </m.div>
             )}
             {stage === "poster" && (
-              <m.div key="poster" className="absolute inset-0 grid place-items-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
-                <div className="relative w-[70%] max-w-[520px]">
-                  <PhotoSlot alt="Sneakers basses cuir blanc" caption="[PHOTO PRODUIT DÉTOURÉ]" tone={1} ratio="16/10" sizes="40vw" />
-                  <div className="mx-auto mt-6 h-4 w-[70%] rounded-[50%] bg-ink/10 blur-md" aria-hidden="true" />
-                </div>
+              <m.div key="poster" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
+                {/* même cadrage que la scène 3D : le fondu de l'une à l'autre est invisible */}
+                <Image src={site.heroPoster} alt="Sneakers basses cuir noir" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain" />
               </m.div>
             )}
           </AnimatePresence>

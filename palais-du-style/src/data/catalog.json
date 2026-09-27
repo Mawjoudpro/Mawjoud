@@ -44,11 +44,11 @@
  "products": [
   {
    "id": "demo-01",
-   "handle": "sneakers-basses-cuir-blanc",
-   "title": "Sneakers basses cuir blanc",
+   "handle": "sneakers-basses-cuir-noir",
+   "title": "Sneakers basses cuir noir",
    "category": "sneakers",
    "subcategory": "Basses",
-   "color": "Blanc",
+   "color": "Noir",
    "price": null,
    "compareAtPrice": null,
    "currency": "EUR",
@@ -95,30 +95,30 @@
    "images": [
     {
      "url": null,
-     "altText": "Sneakers basses cuir blanc, vue 1",
+     "altText": "Sneakers basses cuir noir, vue 1",
      "tone": 1,
      "caption": "[PHOTO PRODUIT FOND BLANC]"
     },
     {
      "url": null,
-     "altText": "Sneakers basses cuir blanc, vue 2",
+     "altText": "Sneakers basses cuir noir, vue 2",
      "tone": 2,
      "caption": "[PHOTO PORTÉE]"
     },
     {
      "url": null,
-     "altText": "Sneakers basses cuir blanc, vue 3",
+     "altText": "Sneakers basses cuir noir, vue 3",
      "tone": 3,
      "caption": "[PHOTO DÉTAIL]"
     },
     {
      "url": null,
-     "altText": "Sneakers basses cuir blanc, vue 4",
+     "altText": "Sneakers basses cuir noir, vue 4",
      "tone": 2,
      "caption": "[PHOTO DOS]"
     }
    ],
-   "description": "Cuir pleine fleur, semelle cousue, doublure respirante. La paire blanche qui va avec tout.",
+   "description": "Cuir pleine fleur, semelle cousue, doublure respirante. La paire noire qui va avec tout.",
    "details": [
     "Tige en cuir pleine fleur",
     "Semelle en caoutchouc cousue",

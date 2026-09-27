@@ -36,7 +36,7 @@ export function AdvisorForm() {
             <label htmlFor="piece" className="text-small font-semibold">
               La pièce que tu cherches
             </label>
-            <textarea id="piece" required rows={3} placeholder="Ex. sneakers blanches en cuir, ou colle un lien" className="min-h-28 resize-y border border-line-2 bg-surface px-4 py-3 outline-none focus:border-ink" />
+            <textarea id="piece" required rows={3} placeholder="Ex. sneakers noires en cuir, ou colle un lien" className="min-h-28 resize-y border border-line-2 bg-surface px-4 py-3 outline-none focus:border-ink" />
           </div>
           <div className="grid gap-2 sm:max-w-[220px]">
             <label htmlFor="taille" className="text-small font-semibold">

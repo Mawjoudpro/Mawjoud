@@ -50,21 +50,28 @@ src/
 Le hero affiche une sneaker 3D et la fiche « Sneakers basses cuir blanc » propose **Voir en 3D** (360°, zoom limité,
 bouton recentrer) et **Voir chez moi** en réalité augmentée (iOS Quick Look / Android Scene Viewer / WebXR).
 
-1. Déposer le modèle brut, par ex. `public/models/sneaker-source.glb`.
-2. Le compresser (Meshopt + textures WebP, cible < 3 Mo) :
-   ```bash
-   npm run optimize:model
-   ```
-   Cela produit `public/models/sneaker.glb`. Vérifier la taille : `ls -lh public/models`.
-3. Rebuild / redéployer. La présence du fichier est vérifiée **au build** : sans fichier, le site affiche l'image
-   fixe partout et aucune requête 3D n'est faite.
+Fichiers :
+- `assets/models/sneaker-source.glb` : modèle d'origine (non publié).
+- `public/models/sneaker.glb` : version compressée Meshopt (117 Ko), utilisée par le site.
+- `public/models/sneaker-poster.webp` : image fixe du modèle (même cadrage que la scène 3D), affichée pendant
+  le chargement et quand la 3D est désactivée.
+- `public/vendor/meshopt_decoder.js` : décodeur Meshopt servi localement pour `<model-viewer>`.
+
+Pour remplacer le modèle :
+1. Déposer le nouveau fichier dans `assets/models/sneaker-source.glb`.
+2. `npm run optimize:model` (Meshopt + textures WebP, cible < 3 Mo) → `public/models/sneaker.glb`.
+3. Refaire l'image fixe `sneaker-poster.webp` (capture du hero sur fond transparent), puis pousser sur GitHub :
+   Vercel redéploie tout seul. La présence du GLB est vérifiée **au build** : sans fichier, le site affiche
+   l'emplacement `[PHOTO CAMPAGNE]` et ne fait aucune requête 3D.
 
 Comportement du hero :
 - Le texte s'affiche d'abord. Three.js n'est téléchargé qu'à la première interaction (ou après 2,5 s de calme).
-- En attendant : image fixe du produit. Si `prefers-reduced-motion`, si l'appareil a 4 cœurs ou moins, si l'économie
-  de données est activée ou sans WebGL : image fixe définitive (`[PHOTO CAMPAGNE]`).
-- Rotation lente automatique, inclinaison au curseur (10° max) sur desktop, rotation au doigt sur mobile
-  (le scroll vertical reste libre), pixel ratio limité à 1,5, rendu mis en pause hors écran.
+- En attendant : image fixe du produit, rendue par le serveur. Si `prefers-reduced-motion`, si l'appareil a 4 cœurs
+  ou moins, si l'économie de données est activée ou sans WebGL : l'image fixe reste affichée.
+- Modèle centré et normalisé avec Box3. Rotation lente automatique (départ de profil), inclinaison vers la souris
+  (10° max) sur desktop, rotation au doigt / à la souris avec inertie (le scroll vertical reste libre), pixel ratio
+  limité à 1,5, rendu mis en pause hors écran.
+- Flottaison (drei `Float`) avec ombre au sol (`ContactShadows`) qui se resserre et pâlit quand le modèle monte.
 - Au scroll, le modèle tourne de 180° et glisse vers les Nouveautés en s'effaçant.
 - L'éclairage « studio » de drei est chargé depuis un CDN ; s'il échoue, la scène garde son éclairage de base.
 

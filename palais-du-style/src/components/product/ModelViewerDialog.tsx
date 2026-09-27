@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, m } from "framer-motion";
 import { useOverlay } from "@/lib/useOverlay";
 import { IconClose, IconCube, IconReset } from "@/components/ui/Icons";
@@ -16,6 +17,7 @@ declare module "react" {
   }
 }
 
+const noop = () => () => {};
 const ORBIT = "30deg 75deg 105%";
 const ease = [0.2, 0.75, 0.15, 1] as const;
 
@@ -24,9 +26,15 @@ export function ModelViewerDialog({ src, title, open, onClose }: { src: string; 
   const ref = useOverlay<HTMLDivElement>(open, onClose);
   const viewer = useRef<ModelViewerElement>(null);
   const [ready, setReady] = useState(false);
+  // vrai uniquement côté navigateur (évite un écart d'hydratation avec le portail)
+  const mounted = useSyncExternalStore(noop, () => true, () => false);
 
   useEffect(() => {
-    if (open) import("@google/model-viewer").then(() => setReady(true));
+    if (!open) return;
+    // le modèle est compressé en Meshopt : model-viewer charge le décodeur servi localement
+    const w = window as Window & { ModelViewerElement?: Record<string, string> };
+    w.ModelViewerElement = { ...w.ModelViewerElement, meshoptDecoderLocation: "/vendor/meshopt_decoder.js" };
+    import("@google/model-viewer").then(() => setReady(true));
   }, [open]);
 
   const reset = () => {
@@ -38,7 +46,9 @@ export function ModelViewerDialog({ src, title, open, onClose }: { src: string; 
     v.jumpCameraToGoal?.();
   };
 
-  return (
+  // rendu dans <body> : la fenêtre passe au-dessus de l'en-tête collant, quel que soit son parent
+  if (!mounted) return null;
+  return createPortal(
     <AnimatePresence>
       {open && (
         <m.div
@@ -98,6 +108,7 @@ export function ModelViewerDialog({ src, title, open, onClose }: { src: string; 
           </footer>
         </m.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

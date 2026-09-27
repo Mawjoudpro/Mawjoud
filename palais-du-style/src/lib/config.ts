@@ -30,6 +30,8 @@ export const site = {
 
   /** Modèle 3D du hero. Si le fichier est absent, le site affiche l'image fixe. */
   heroModel: "/models/sneaker.glb",
+  /** Image fixe affichée pendant le chargement de la 3D (rendu du modèle, fond transparent). */
+  heroPoster: "/models/sneaker-poster.webp",
 } as const;
 
 export const announcements = [

@@ -168,12 +168,12 @@ export function Advisor() {
               </div>
             </div>
             <div className="mt-5 grid gap-3 text-small">
-              <p className="max-w-[80%] justify-self-end rounded-2xl rounded-br-sm bg-ink px-4 py-3 text-paper">Salut, les sneakers blanches en cuir, tu les as en 42 ?</p>
+              <p className="max-w-[80%] justify-self-end rounded-2xl rounded-br-sm bg-ink px-4 py-3 text-paper">Salut, les sneakers noires en cuir, tu les as en 42 ?</p>
               <p className="max-w-[80%] rounded-2xl rounded-bl-sm bg-paper px-4 py-3">Oui, il en reste. Je te les mets de côté jusqu&apos;à demain ?</p>
               <div className="max-w-[80%] rounded-2xl rounded-bl-sm bg-paper p-2">
                 <PhotoSlot alt="" caption="[PHOTO PRODUIT]" tone={2} ratio="16/9" sizes="300px" />
                 <p className="flex items-baseline justify-between gap-3 px-2 pt-2 pb-1">
-                  <span>Sneakers basses cuir blanc</span>
+                  <span>Sneakers basses cuir noir</span>
                   <span className="price ph">[PRIX]</span>
                 </p>
               </div>
