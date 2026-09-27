@@ -2,31 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { m, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { site } from "@/lib/config";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { IconArrow } from "@/components/ui/Icons";
 
-// Three.js n'est téléchargé que si la 3D est réellement affichée.
-const SneakerScene = dynamic(() => import("@/components/three/SneakerScene"), { ssr: false });
+import { HeroView } from "@/components/three/Lazy3D";
+import { canShow3D, request3D } from "@/lib/three-gate";
 
 type Stage = "static" | "poster" | "3d";
-
-function canShow3D() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  if ((navigator.hardwareConcurrency ?? 8) <= 4) return false;
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  if (conn?.saveData) return false;
-  try {
-    const c = document.createElement("canvas");
-    if (!(c.getContext("webgl2") || c.getContext("webgl"))) return false;
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 /** Charge la 3D après l'affichage du texte : à la première interaction ou après 2,5 s de calme. */
 function whenIdle(cb: () => void) {
@@ -62,7 +47,10 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
     queueMicrotask(() => {
       if (cancelled) return;
       if (!modelUrl || !canShow3D()) return;
-      cleanup = whenIdle(() => setLoad3D(true));
+      cleanup = whenIdle(() => {
+        request3D("hero");
+        setLoad3D(true);
+      });
     });
     return () => {
       cancelled = true;
@@ -70,15 +58,16 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
     };
   }, [modelUrl]);
 
-  // Animation pilotée par le scroll : le modèle tourne de 180° et glisse vers les nouveautés.
+  // Scroll : la sneaker reste dans le hero. Elle tourne (90° max), descend un peu et s'estompe
+  // avant que le hero ne sorte de l'écran (voir HeroModel). L'image fixe suit le même fondu.
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0vh", "48vh"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.55, 0.95], [1, 1, 0]);
+  const posterOpacity = useTransform(scrollYProgress, [0.2, 0.6], [1, 0]);
+  const posterY = useTransform(scrollYProgress, [0, 0.6], ["0%", "6%"]);
 
   const lines = ["Mieux.", "Moins cher.", "Plus vite."];
 
   return (
-    <section ref={section} className="relative" aria-labelledby="hero-title">
+    <section ref={section} className="relative overflow-hidden" aria-labelledby="hero-title">
       <div className="wrap grid grid-cols-1 gap-y-2 pt-8 pb-12 lg:max-h-[980px] lg:min-h-[max(620px,calc(100svh-108px))] lg:grid-cols-12 lg:grid-rows-[1fr_auto] lg:gap-x-8 lg:gap-y-0 lg:py-0">
         <h1 id="hero-title" className="relative z-10 font-serif text-display tracking-[-0.03em] lg:col-span-6 lg:self-end">
           {lines.map((l, i) => (
@@ -104,9 +93,8 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
           </div>
         </div>
 
-        <m.div
-          style={stage === "3d" || stage === "poster" ? { y, opacity } : undefined}
-          className="relative order-2 -mx-[var(--gutter)] h-[clamp(260px,72vw,420px)] lg:order-none lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:-mr-[var(--gutter)] lg:h-auto"
+        <div
+          className="relative z-0 order-2 overflow-hidden -mx-[var(--gutter)] h-[clamp(260px,72vw,420px)] lg:order-none lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:-mr-[var(--gutter)] lg:h-auto"
         >
           <AnimatePresence initial={false}>
             {stage === "static" && (
@@ -115,7 +103,7 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
               </m.div>
             )}
             {stage === "poster" && (
-              <m.div key="poster" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
+              <m.div key="poster" className="absolute inset-0" style={{ opacity: posterOpacity, y: posterY }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
                 {/* même cadrage que la scène 3D : le fondu de l'une à l'autre est invisible */}
                 <Image src={site.heroPoster} alt="Sneakers basses cuir noir" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain" />
               </m.div>
@@ -123,10 +111,10 @@ export function Hero({ modelUrl }: { modelUrl: string | null }) {
           </AnimatePresence>
           {load3D && modelUrl && (
             <div className={`absolute inset-0 transition-opacity duration-700 ${stage === "3d" ? "opacity-100" : "opacity-0"}`}>
-              <SneakerScene url={modelUrl} progress={scrollYProgress} onReady={onReady} />
+              <HeroView url={modelUrl} progress={scrollYProgress} onReady={onReady} />
             </div>
           )}
-        </m.div>
+        </div>
       </div>
     </section>
   );

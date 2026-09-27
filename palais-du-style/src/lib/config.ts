@@ -29,9 +29,20 @@ export const site = {
   },
 
   /** Modèle 3D du hero. Si le fichier est absent, le site affiche l'image fixe. */
-  heroModel: "/models/sneaker.glb",
+  heroModel: "/models/sneakers.glb",
   /** Image fixe affichée pendant le chargement de la 3D (rendu du modèle, fond transparent). */
-  heroPoster: "/models/sneaker-poster.webp",
+  heroPoster: "/models/sneakers-hero.webp",
+
+  /**
+   * Modèles 3D des tuiles de catégories. Un fichier absent = la tuile garde son emplacement photo.
+   * `poster` : image fixe du modèle affichée en attendant la 3D (ou si elle est désactivée).
+   */
+  categoryModels: {
+    sneakers: { model: "/models/sneakers.glb", poster: "/models/sneakers-poster.webp" },
+    sacs: { model: "/models/sacs.glb", poster: "/models/sacs-poster.webp" },
+    vetements: { model: "/models/vetements.glb", poster: "/models/vetements-poster.webp" },
+    accessoires: { model: "/models/accessoires.glb", poster: "/models/accessoires-poster.webp" },
+  } as Record<string, { model: string; poster: string }>,
 } as const;
 
 export const announcements = [

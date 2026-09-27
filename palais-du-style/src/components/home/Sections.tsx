@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { categories, products } from "@/lib/catalog";
 import { site } from "@/lib/config";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import { IconArrow, IconCard, IconReturn, IconTag, IconTruck } from "@/components/ui/Icons";
+import { IconCard, IconReturn, IconTag, IconTruck } from "@/components/ui/Icons";
 
 /* ---------- 4 engagements ---------- */
 export function Promises() {
@@ -27,38 +26,6 @@ export function Promises() {
             </div>
           </li>
         ))}
-      </ul>
-    </section>
-  );
-}
-
-/* ---------- catégories ---------- */
-export function CategoryTiles() {
-  return (
-    <section aria-labelledby="cat-title" className="wrap py-20 lg:py-32">
-      <h2 id="cat-title" className="sr-only">
-        Catégories
-      </h2>
-      <ul className="grid grid-cols-2 gap-x-3 gap-y-8 lg:grid-cols-4 lg:gap-x-5">
-        {categories.map((c) => {
-          const n = products.filter((p) => p.category === c.handle).length;
-          return (
-            <li key={c.handle}>
-              <Link href={`/boutique/${c.handle}`} className="group block">
-                <div className="overflow-hidden">
-                  <PhotoSlot alt={`Catégorie ${c.title}`} caption="[PHOTO CATÉGORIE]" tone={c.tone} ratio="3/4" sizes="(min-width: 1024px) 25vw, 50vw" className="transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.03]" />
-                </div>
-                <div className="mt-4 flex items-baseline justify-between gap-3">
-                  <span className="min-w-0 font-serif text-[24px] leading-none sm:text-h4 lg:text-[40px]">{c.title}</span>
-                  <span className="flex items-center gap-2 text-small text-ink-2 transition-colors group-hover:text-ink">
-                    <span className="price">{n}</span>
-                    <IconArrow width={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
       </ul>
     </section>
   );

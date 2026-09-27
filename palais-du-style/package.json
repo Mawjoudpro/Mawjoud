@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "optimize:model": "gltf-transform optimize assets/models/sneaker-source.glb public/models/sneaker.glb --compress meshopt --texture-compress webp --texture-size 2048"
+    "optimize:model": "node scripts/optimize-models.mjs"
   },
   "dependencies": {
     "@google/model-viewer": "^4.3.1",

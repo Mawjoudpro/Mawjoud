@@ -47,36 +47,39 @@ src/
 - `deliveryDelay`, `returnsDelay`, `whatsappUrl`, `snapchatUrl`, `legal`.
 
 ## 3D
-Le hero affiche une sneaker 3D et la fiche « Sneakers basses cuir blanc » propose **Voir en 3D** (360°, zoom limité,
-bouton recentrer) et **Voir chez moi** en réalité augmentée (iOS Quick Look / Android Scene Viewer / WebXR).
+Un seul `<Canvas>` WebGL pour toute la page d'accueil (`src/components/three/Scene3D.tsx`), fixe, sous l'en-tête
+et sans capter les clics. Chaque zone 3D est une `<View>` drei posée dans le DOM : le hero et les tuiles de
+catégories. three.js n'est téléchargé que lorsqu'une zone demande la 3D (`src/lib/three-gate.ts`).
 
 Fichiers :
-- `assets/models/sneaker-source.glb` : modèle d'origine (non publié).
-- `public/models/sneaker.glb` : version compressée Meshopt (117 Ko), utilisée par le site.
-- `public/models/sneaker-poster.webp` : image fixe du modèle (même cadrage que la scène 3D), affichée pendant
-  le chargement et quand la 3D est désactivée.
+- `assets/models/<nom>-source.glb` : modèles d'origine (non publiés).
+- `public/models/<nom>.glb` : versions optimisées. `sneakers.glb` sert au hero, à la tuile Sneakers et à la vue 360°.
+- `public/models/<nom>-poster.webp`, `sneakers-hero.webp` : images fixes des modèles (même cadrage que la 3D),
+  affichées pendant le chargement et quand la 3D est désactivée.
 - `public/vendor/meshopt_decoder.js` : décodeur Meshopt servi localement pour `<model-viewer>`.
 
-Pour remplacer le modèle :
-1. Déposer le nouveau fichier dans `assets/models/sneaker-source.glb`.
-2. `npm run optimize:model` (Meshopt + textures WebP, cible < 3 Mo) → `public/models/sneaker.glb`.
-3. Refaire l'image fixe `sneaker-poster.webp` (capture du hero sur fond transparent), puis pousser sur GitHub :
-   Vercel redéploie tout seul. La présence du GLB est vérifiée **au build** : sans fichier, le site affiche
-   l'emplacement `[PHOTO CAMPAGNE]` et ne fait aucune requête 3D.
+Ajouter ou remplacer un modèle (ex. `vetements`) :
+1. Déposer `assets/models/vetements-source.glb`.
+2. `npm run optimize:model` (ou `npm run optimize:model vetements`) : normales lisses si absentes, matériau
+   non métallique si non renseigné, textures WebP 1024 px, compression Meshopt.
+3. Créer `public/models/vetements-poster.webp` (capture de la tuile, fond transparent).
+4. Pousser sur GitHub : Vercel redéploie. Les fichiers sont détectés **au build** (`src/lib/models.ts`) ; une
+   catégorie sans fichier garde son emplacement photo.
 
-Comportement du hero :
-- Le texte s'affiche d'abord. Three.js n'est téléchargé qu'à la première interaction (ou après 2,5 s de calme).
-- En attendant : image fixe du produit, rendue par le serveur. Si `prefers-reduced-motion`, si l'appareil a 4 cœurs
-  ou moins, si l'économie de données est activée ou sans WebGL : l'image fixe reste affichée.
-- Modèle centré et normalisé avec Box3. Rotation lente automatique (départ de profil), inclinaison vers la souris
-  (10° max) sur desktop, rotation au doigt / à la souris avec inertie (le scroll vertical reste libre), pixel ratio
-  limité à 1,5, rendu mis en pause hors écran.
-- Flottaison (drei `Float`) avec ombre au sol (`ContactShadows`) qui se resserre et pâlit quand le modèle monte.
-- Au scroll, le modèle tourne de 180° et glisse vers les Nouveautés en s'effaçant.
-- L'éclairage « studio » de drei est chargé depuis un CDN ; s'il échoue, la scène garde son éclairage de base.
+Hero :
+- Image fixe rendue par le serveur, puis 3D à la première interaction (ou après 2,5 s de calme).
+- Rotation lente, drag avec inertie, inclinaison vers la souris (10° max), flottaison avec ombre au sol qui se
+  resserre quand le modèle monte. Modèle et ombre sont dans le même groupe.
+- Au scroll, la sneaker reste dans le hero : elle tourne de 90° au plus, descend légèrement et s'estompe avant que
+  le hero ne sorte de l'écran.
 
-Pour un iPhone, Quick Look utilise automatiquement une conversion USDZ générée par `<model-viewer>`. Pour un rendu AR
-optimal, on peut aussi fournir un `.usdz` dédié (attribut `ios-src` dans `ModelViewerDialog.tsx`).
+Tuiles de catégories :
+- 3D initialisée seulement quand la section approche de l'écran. Modèles normalisés avec Box3 (même présence
+  visuelle), flottaison douce, rotation lente (plus rapide et +5 % au survol sur desktop), rotation uniquement
+  quand la tuile est visible. La tuile reste un lien.
+
+3D désactivée (image fixe) si `prefers-reduced-motion`, si l'appareil a 4 cœurs ou moins, si l'économie de données
+est activée ou sans WebGL. L'éclairage « studio » de drei vient d'un CDN ; s'il échoue, l'éclairage de base reste.
 
 ## Brancher Shopify plus tard
 Les types de `src/lib/catalog.ts` suivent la Storefront API (`handle`, `title`, `variants[].availableForSale`,
