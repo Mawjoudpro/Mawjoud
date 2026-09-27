@@ -53,7 +53,7 @@ catégories. three.js n'est téléchargé que lorsqu'une zone demande la 3D (`sr
 
 Fichiers :
 - `assets/models/<nom>-source.glb` : modèles d'origine (non publiés).
-- `public/models/<nom>.glb` : versions optimisées. `sneakers.glb` sert au hero, à la tuile Sneakers et à la vue 360°.
+- `public/models/<nom>.glb` : versions optimisées. Un `sneakers.glb` servirait au hero, à la tuile Sneakers et à la vue 360° (retiré pour l'instant : le hero affiche `[PHOTO CAMPAGNE]`).
 - `public/models/<nom>-poster.webp`, `sneakers-hero.webp` : images fixes des modèles (même cadrage que la 3D),
   affichées pendant le chargement et quand la 3D est désactivée.
 - `public/vendor/meshopt_decoder.js` : décodeur Meshopt servi localement pour `<model-viewer>`.
