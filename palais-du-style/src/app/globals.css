@@ -257,3 +257,11 @@ h3 {
     animation: none;
   }
 }
+
+/* écran de chargement : le blason fixe respire doucement */
+@keyframes blason-breathe {
+  50% {
+    opacity: 0.72;
+    transform: scale(0.985);
+  }
+}

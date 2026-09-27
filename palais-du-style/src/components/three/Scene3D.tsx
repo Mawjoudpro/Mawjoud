@@ -8,7 +8,6 @@
 import {
   Component,
   Suspense,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -25,7 +24,6 @@ import {
 } from "@react-three/drei";
 import {
   Box3,
-  Color,
   Group,
   MathUtils,
   Mesh,
@@ -34,9 +32,6 @@ import {
   type Material,
   type Object3D,
 } from "three";
-import type { MotionValue } from "framer-motion";
-
-const TILT = MathUtils.degToRad(10);
 
 /* ---------- canvas unique ---------- */
 
@@ -119,41 +114,6 @@ function useNormalized(url: string, fit: Fit) {
   }, [scene, fit.width, fit.height]);
 }
 
-/**
- * Fondu sans artefact : un voile de la couleur du fond, devant la caméra, dont l'opacité monte.
- * Le fond du hero étant uni, c'est visuellement identique à une baisse d'opacité du modèle
- * et de son ombre, sans problème de tri des faces transparentes.
- */
-function FadeVeil({ amount }: { amount: () => number }) {
-  const mat = useRef<MeshBasicMaterial>(null);
-  const color = useMemo(
-    () =>
-      new Color(
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--paper")
-          .trim() || "#f6f6f4",
-      ),
-    [],
-  );
-  useFrame(() => {
-    if (mat.current) mat.current.opacity = amount();
-  });
-  return (
-    <mesh position={[0, 0, 3.5]} renderOrder={10}>
-      <planeGeometry args={[20, 20]} />
-      <meshBasicMaterial
-          toneMapped={false}
-        ref={mat}
-        color={color}
-        transparent
-        depthTest={false}
-        depthWrite={false}
-        opacity={0}
-      />
-    </mesh>
-  );
-}
-
 /** Ombre au sol qui se resserre et pâlit quand l'objet monte (lié à la flottaison). */
 function useShadowFollow(
   floating: React.RefObject<Group | null>,
@@ -174,180 +134,6 @@ function useShadowFollow(
         o.material.opacity = (base - 0.2 * t) * fade();
     });
   });
-}
-
-/* ---------- hero ---------- */
-
-const HERO_RANGE = 0.09;
-
-function HeroModel({
-  url,
-  progress,
-  takeVelocity,
-  onReady,
-}: {
-  url: string;
-  progress: MotionValue<number>;
-  takeVelocity: () => number;
-  onReady: () => void;
-}) {
-  const { root, scale, offset, bottom } = useNormalized(url, {
-    width: 2.6,
-    height: 1.6,
-  });
-  const rig = useRef<Group>(null);
-  const spinner = useRef<Group>(null);
-  const floating = useRef<Group>(null);
-  const shadow = useRef<Group>(null);
-  const st = useRef({
-    spin: Math.PI / 2,
-    drag: 0,
-    fine: false,
-    px: 0,
-    py: 0,
-    fade: 1,
-  });
-
-  useEffect(() => onReady(), [onReady]);
-
-  useEffect(() => {
-    const s = st.current;
-    s.fine = window.matchMedia("(pointer: fine)").matches;
-    const move = (e: PointerEvent) => {
-      s.px = (e.clientX / window.innerWidth) * 2 - 1;
-      s.py = (e.clientY / window.innerHeight) * 2 - 1;
-    };
-    window.addEventListener("pointermove", move, { passive: true });
-    return () => window.removeEventListener("pointermove", move);
-  }, []);
-
-  useShadowFollow(floating, shadow, HERO_RANGE, 0.55, () => 1);
-
-  useFrame((_, dt) => {
-    const s = st.current;
-    s.drag += takeVelocity();
-    s.spin += dt * 0.28;
-    // scroll : 90° max, légère descente et fondu, terminés avant que le hero ne sorte de l'écran
-    const p = MathUtils.clamp(progress.get() / 0.6, 0, 1);
-    const fade = 1 - MathUtils.clamp((progress.get() - 0.2) / 0.4, 0, 1);
-    s.fade = fade;
-    if (rig.current) {
-      rig.current.position.y = -0.35 * p;
-      rig.current.rotation.y = p * (Math.PI / 2);
-    }
-    if (spinner.current) {
-      spinner.current.rotation.y = s.spin + s.drag;
-      spinner.current.rotation.x = MathUtils.damp(
-        spinner.current.rotation.x,
-        s.fine ? s.py * TILT : 0,
-        4,
-        dt,
-      );
-      spinner.current.rotation.z = MathUtils.damp(
-        spinner.current.rotation.z,
-        s.fine ? -s.px * TILT * 0.6 : 0,
-        4,
-        dt,
-      );
-    }
-  });
-
-  return (
-    <>
-      {/* modèle et ombre dans le même groupe : l'ombre suit toujours le modèle */}
-      <group ref={rig}>
-        <Float
-          ref={floating}
-          speed={1.6}
-          rotationIntensity={0.12}
-          floatIntensity={1}
-          floatingRange={[-HERO_RANGE, HERO_RANGE]}
-        >
-          <group ref={spinner}>
-            <primitive object={root} scale={scale} position={offset} />
-          </group>
-        </Float>
-        <group ref={shadow} position={[0, bottom - 0.14, 0]}>
-          <ContactShadows
-            opacity={0.55}
-            scale={4.2}
-            blur={2.4}
-            far={1.6}
-            resolution={512}
-            color="#1a1a18"
-          />
-        </group>
-      </group>
-      <FadeVeil amount={() => 1 - st.current.fade} />
-    </>
-  );
-}
-
-export function HeroView({
-  url,
-  progress,
-  onReady,
-}: {
-  url: string;
-  progress: MotionValue<number>;
-  onReady: () => void;
-}) {
-  const drag = useRef({ velocity: 0 });
-  const last = useRef<number | null>(null);
-  // vitesse de rotation au drag, avec inertie
-  const takeVelocity = useCallback(() => {
-    const v = drag.current.velocity;
-    drag.current.velocity *= 0.92;
-    return v;
-  }, []);
-
-  useEffect(() => {
-    const move = (e: PointerEvent) => {
-      if (last.current == null) return;
-      drag.current.velocity = (e.clientX - last.current) * 0.005;
-      last.current = e.clientX;
-    };
-    const up = () => {
-      last.current = null;
-    };
-    window.addEventListener("pointermove", move, { passive: true });
-    window.addEventListener("pointerup", up);
-    window.addEventListener("pointercancel", up);
-    return () => {
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", up);
-      window.removeEventListener("pointercancel", up);
-    };
-  }, []);
-
-  return (
-    <div
-      className="absolute inset-0 cursor-grab touch-pan-y active:cursor-grabbing"
-      onPointerDown={(e) => {
-        last.current = e.clientX;
-      }}
-      aria-label="Sneaker en 3D, fais-la tourner"
-      role="img"
-    >
-      <View className="absolute inset-0">
-        <PerspectiveCamera
-          makeDefault
-          position={[0, 0.6, 6]}
-          fov={30}
-          onUpdate={(c) => c.lookAt(0, 0, 0)}
-        />
-        <Studio />
-        <Suspense fallback={null}>
-          <HeroModel
-            url={url}
-            progress={progress}
-            takeVelocity={takeVelocity}
-            onReady={onReady}
-          />
-        </Suspense>
-      </View>
-    </div>
-  );
 }
 
 /* ---------- tuiles de catégories ---------- */

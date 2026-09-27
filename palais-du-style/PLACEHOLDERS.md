@@ -45,6 +45,9 @@ suffit à remplacer l'aplat par une vraie image optimisée (lazy, AVIF/WebP, obj
 | `[DÉLAI D'EXPÉDITION]`, `[CONDITIONS DE REMBOURSEMENT]` | `src/components/product/ProductInfo.tsx` |
 | `[LIEN]` Instagram | `src/components/layout/Footer.tsx` |
 
+## Confirmation de commande
+`src/app/commande/confirmation/page.tsx` : `[NUMÉRO DE COMMANDE]`, `[DÉLAI D'EXPÉDITION]` (fournis par Shopify une fois branché).
+
 ## Pages légales (squelettes à faire valider)
 `src/app/cgv`, `src/app/mentions-legales`, `src/app/retours`, `src/app/livraison` :
 `[FORME JURIDIQUE]`, `[CAPITAL]`, `[NOM]` (directeur de publication), `[TARIF LIVRAISON]`,

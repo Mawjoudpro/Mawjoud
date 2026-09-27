@@ -81,6 +81,28 @@ Tuiles de catégories :
 3D désactivée (image fixe) si `prefers-reduced-motion`, si l'appareil a 4 cœurs ou moins, si l'économie de données
 est activée ou sans WebGL. L'éclairage « studio » de drei vient d'un CDN ; s'il échoue, l'éclairage de base reste.
 
+## Blason 3D (`<BlasonHero />`)
+Le blason de la marque en or massif, dans le hero (sur le noir #0b0b0a), la 404 et la confirmation de commande.
+
+```tsx
+<BlasonHero mode="hero" priority />        // poussière d'or, bloom, inclinaison souris / gyroscope
+<BlasonHero mode="small" size={180} />     // rotation lente seule (404, confirmation)
+<BlasonHero mode="loader" size={140} />    // écran de chargement : l'image fixe respire, la 3D suit si l'attente dure
+```
+
+- `public/brand/blason.svg` : vectorisé depuis `assets/brand/blason-source.png` (`python3 scripts/vectorize-blason.py`).
+- `src/components/blason/BlasonScene.tsx` : SVGLoader + ExtrudeGeometry (biseau fin), or MeshPhysical (métal, rugosité
+  0,28, léger vernis), reflets par Lightformers (softboxes blanches + une chaude), clé chaude et contre-jour,
+  un tour en 40 s, flottement léger, inclinaison max 8° très amortie, paillettes (Sparkles), bloom discret.
+  Quand le blason montre son dos, une copie tournée de 180° prend le relais : le texte se lit toujours dans le bon sens.
+- Vignettage : dégradé CSS sur tout le hero (pas de cadre visible autour du canvas).
+- Chargé après le texte (première interaction ou 2,5 s de calme), animation en pause hors écran, dpr ≤ 1,5
+  (1,25 sur mobile, sans anticrénelage).
+- Image fixe `public/brand/blason-3d.webp` (générée depuis le rendu 3D) affichée d'abord, et gardée si
+  `prefers-reduced-motion`, sans WebGL, `deviceMemory` ≤ 4 ou `hardwareConcurrency` ≤ 4.
+- Regénérer l'image fixe : `BLASON_STUDIO=1 npx next start`, ouvrir `/atelier/blason` (fond transparent, haute
+  définition), capturer `#blason-studio` sans fond, enregistrer en WebP. Sans cette variable, la page renvoie 404.
+
 ## Brancher Shopify plus tard
 Les types de `src/lib/catalog.ts` suivent la Storefront API (`handle`, `title`, `variants[].availableForSale`,
 `price`, `compareAtPrice`). Il suffit de remplacer `products`, `getProduct`, `newArrivals` par des requêtes GraphQL

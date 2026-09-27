@@ -22,7 +22,7 @@ export default function Home() {
     <>
       {/* un seul canvas WebGL pour toute la page, monté seulement si une zone demande la 3D */}
       <ThreeRoot />
-      <Hero modelUrl={modelAvailable(site.heroModel) ? site.heroModel : null} />
+      <Hero />
       <Promises />
       <CategoryTiles tiles={tiles} />
       <NewArrivals items={newArrivals()} />

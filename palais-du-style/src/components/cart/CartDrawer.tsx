@@ -130,9 +130,10 @@ export function CartDrawer() {
                   <span className={`price text-h4 ${subtotal == null ? "ph" : ""}`}>{formatPrice(subtotal, "[TOTAL]")}</span>
                 </div>
                 <p className="text-micro text-ink-2">Paiement en 3x ou 4x sans frais disponible à l&apos;étape suivante.</p>
-                <button className="btn btn-ink w-full" onClick={() => alertDemo()}>
+                {/* démonstration : mène à la confirmation ; sur le vrai site, vers le checkout Shopify */}
+                <Link href="/commande/confirmation" onClick={closeCart} className="btn btn-ink w-full">
                   Commander <IconArrow width={18} />
-                </button>
+                </Link>
               </footer>
             )}
           </m.div>
@@ -140,8 +141,4 @@ export function CartDrawer() {
       )}
     </AnimatePresence>
   );
-}
-
-function alertDemo() {
-  window.dispatchEvent(new CustomEvent("pds:toast", { detail: "Site de démonstration : le paiement sera branché sur Shopify." }));
 }

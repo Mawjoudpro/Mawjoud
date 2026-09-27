@@ -28,11 +28,6 @@ export const site = {
     email: "[E-MAIL]",
   },
 
-  /** Modèle 3D du hero. Si le fichier est absent, le site affiche l'image fixe. */
-  heroModel: "/models/sneakers.glb",
-  /** Image fixe affichée pendant le chargement de la 3D (rendu du modèle, fond transparent). */
-  heroPoster: "/models/sneakers-hero.webp",
-
   /**
    * Modèles 3D des tuiles de catégories. Un fichier absent = la tuile garde son emplacement photo.
    * `poster` : image fixe du modèle affichée en attendant la 3D (ou si elle est désactivée).
