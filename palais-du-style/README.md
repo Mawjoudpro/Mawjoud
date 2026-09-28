@@ -29,16 +29,24 @@ src/
                           conseiller, cgv, mentions-legales, retours, livraison, 404)
   components/
     layout/               bandeau d'annonce, header + méga-menu, menu mobile, recherche, footer
-    home/                 hero (3D), engagements, catégories, carrousel, « pourquoi moins cher »,
+    home/                 hero (textes : content/hero.json), engagements, catégories, carrousel, « pourquoi moins cher »,
                           conseiller, avis, newsletter, garantie prix (désactivée)
     shop/                 grille + filtres (panneau desktop / tiroir mobile), carte produit
     product/              galerie (swipe mobile, zoom desktop), infos + tailles, vue 3D / AR
     cart/                 panier (contexte + tiroir latéral)
-    three/SneakerScene    scène React Three Fiber du hero
+    three/                canvas 3D partagé des tuiles de catégories
+    blason/               blason 3D en or (hero, 404, confirmation)
     ui/                   PhotoSlot, Price, icônes, toast, provider d'animations
   data/catalog.json       12 produits de démo, 4 catégories
   lib/                    config (placeholders, options), catalogue, hook des tiroirs, vérif. modèles 3D
 ```
+
+## Textes du hero (`content/hero.json`)
+Modifiables sans toucher au code, y compris directement sur GitHub (icône crayon, puis « Commit changes ») :
+Vercel redéploie tout seul en 1 à 2 minutes. Chaque champ est expliqué en haut du fichier ; un champ vide n'est pas
+affiché. La taille du titre s'adapte à sa longueur (3 lignes au plus sur mobile). Si le fichier est mal formé
+(guillemet ou virgule oubliés), le déploiement échoue avec un message clair et la version précédente reste en ligne.
+Lecture : `src/lib/hero-content.ts`.
 
 ## Réglages utiles (`src/lib/config.ts`)
 - `priceMatchEnabled` : `false` par défaut. Passer à `true` affiche le bloc « Garantie prix le plus bas »

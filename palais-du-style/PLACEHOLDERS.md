@@ -29,8 +29,6 @@ Calculés automatiquement dès que les prix sont remplis : `[TOTAL]`, `[ÉCONOMI
 ## Photos de mise en page
 | Placeholder | Fichier |
 |---|---|
-| `[PHOTO CAMPAGNE]` (hero si la 3D est absente ou désactivée) | `src/components/home/Hero.tsx` |
-| `[PHOTO PRODUIT DÉTOURÉ]` (image d'attente de la 3D) | `src/components/home/Hero.tsx` |
 | `[PHOTO CATÉGORIE]` (tuiles catégories, méga-menu) | `src/components/home/Sections.tsx`, `src/components/layout/Header.tsx` |
 | `[PHOTO PORTÉE]` (méga-menu), `[PHOTO PRODUIT]` (aperçu conversation) | `Header.tsx`, `Sections.tsx` |
 
@@ -38,6 +36,9 @@ Composant commun : `PhotoSlot` (`src/components/ui/PhotoSlot.tsx`). Passer `src=
 suffit à remplacer l'aplat par une vraie image optimisée (lazy, AVIF/WebP, object-fit cover).
 
 ## Textes
+Les textes du hero (titre, sous-titre, boutons, badges) se modifient dans **`content/hero.json`**, sans toucher au code
+(mode d'emploi en haut du fichier). Un texte entre [crochets] y est affiché comme « à remplir ».
+
 | Placeholder | Fichier |
 |---|---|
 | `[AVIS CLIENT]`, `[PRÉNOM]`, `[VILLE]`, `[PIÈCE ACHETÉE]` (3 avis) | `src/components/home/Sections.tsx` → `Reviews`. **Uniquement de vrais avis.** |
@@ -54,4 +55,4 @@ suffit à remplacer l'aplat par une vraie image optimisée (lazy, AVIF/WebP, obj
 `[ZONES ET CONDITIONS]`, et tous les blocs `[À COMPLÉTER : …]`.
 
 ## 3D
-`public/models/sneaker.glb` : absent pour l'instant. Voir le README (section 3D).
+Modèles des tuiles `sneakers` et `vetements` : absents pour l'instant (photo à la place). Voir le README (section 3D).

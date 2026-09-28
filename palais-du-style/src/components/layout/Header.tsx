@@ -94,7 +94,7 @@ export function Header() {
         onKeyDown={(e) => e.key === "Escape" && setMega(null)}
       >
         <div
-          className={`wrap grid grid-cols-[auto_1fr_auto] items-center transition-[height] duration-300 ease-[var(--ease-soft)] lg:grid-cols-[1fr_auto_1fr] ${
+          className={`wrap grid grid-cols-[auto_1fr_auto] items-center transition-[height] duration-300 ease-[var(--ease-soft)] lg:gap-x-8 xl:grid-cols-[1fr_auto_1fr] ${
             scrolled ? "h-14" : "h-16 lg:h-[72px]"
           }`}
         >
@@ -103,7 +103,7 @@ export function Header() {
             <button className="-ml-3 grid size-11 place-items-center lg:hidden" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu">
               <IconMenu />
             </button>
-            <nav aria-label="Navigation principale" className="hidden items-center gap-7 text-small font-medium lg:flex">
+            <nav aria-label="Navigation principale" className="hidden items-center gap-5 text-small font-medium xl:gap-7 lg:flex">
               <Link href="/boutique" className="navlink py-2" aria-current={pathname === "/boutique" ? "page" : undefined} onMouseEnter={scheduleClose}>
                 Nouveautés
               </Link>
@@ -133,7 +133,7 @@ export function Header() {
           <div className="-mr-3 flex items-center justify-end gap-1 lg:gap-2" onMouseEnter={scheduleClose}>
             <button onClick={() => setSearchOpen(true)} className="grid size-11 place-items-center lg:flex lg:w-auto lg:gap-2 lg:px-3 lg:text-small lg:font-medium" aria-label="Rechercher">
               <IconSearch />
-              <span className="hidden lg:inline">Rechercher</span>
+              <span className="hidden xl:inline">Rechercher</span>
             </button>
             <Link href="/conseiller" className="navlink hidden px-3 py-2 text-small font-medium lg:block" aria-current={pathname === "/conseiller" ? "page" : undefined}>
               Conseiller
