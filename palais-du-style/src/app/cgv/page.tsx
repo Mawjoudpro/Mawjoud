@@ -18,7 +18,7 @@ const sections = [
   },
   {
     "title": "Commande et paiement",
-    "body": "[À COMPLÉTER : étapes de commande, moyens de paiement, paiement en 3x/4x et prestataire.]"
+    "body": "[À COMPLÉTER : étapes de commande, moyens de paiement et prestataire.]"
   },
   {
     "title": "Livraison",

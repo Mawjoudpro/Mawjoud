@@ -129,7 +129,6 @@ export function CartDrawer() {
                   <span className="font-medium">Total</span>
                   <span className={`price text-h4 ${subtotal == null ? "ph" : ""}`}>{formatPrice(subtotal, "[TOTAL]")}</span>
                 </div>
-                <p className="text-micro text-ink-2">Paiement en 3x ou 4x sans frais disponible à l&apos;étape suivante.</p>
                 {/* démonstration : mène à la confirmation ; sur le vrai site, vers le checkout Shopify */}
                 <Link href="/commande/confirmation" onClick={closeCart} className="btn btn-ink w-full">
                   Commander <IconArrow width={18} />

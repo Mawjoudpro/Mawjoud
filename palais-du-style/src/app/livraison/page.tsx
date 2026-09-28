@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Livraison" };
 const sections = [
   {
     "title": "Délais",
-    "body": "Expédition sous [DÉLAI D'EXPÉDITION], livraison en [DÉLAI] en France métropolitaine."
+    "body": "Expédition sous [DÉLAI D'EXPÉDITION], livraison en 4 jours en France métropolitaine."
   },
   {
     "title": "Tarifs",

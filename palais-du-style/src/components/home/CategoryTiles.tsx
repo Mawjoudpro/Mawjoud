@@ -60,7 +60,7 @@ function CategoryTile({ tile, enable3D }: { tile: Tile; enable3D: boolean }) {
         )}
       </div>
       <div className="mt-4 flex items-baseline justify-between gap-3">
-        <span className="min-w-0 truncate font-serif text-[21px] leading-tight sm:text-h4 lg:text-[40px] lg:leading-none">{tile.title}</span>
+        <span className="min-w-0 font-serif text-[21px] leading-tight text-balance sm:text-h4 lg:text-[clamp(28px,2.6vw,40px)] lg:leading-[1.05]">{tile.title}</span>
         <span className="flex shrink-0 items-center gap-2 text-small text-ink-2 transition-colors group-hover:text-ink">
           <span className="price">{tile.count}</span>
           <IconArrow width={16} className="hidden transition-transform duration-300 group-hover:translate-x-1 sm:block" />

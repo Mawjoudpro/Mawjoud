@@ -52,7 +52,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                   data-autofocus
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Sneakers, sac, hoodie…"
+                  placeholder="Paire de chaussures, sac, hoodie…"
                   autoComplete="off"
                   enterKeyHint="search"
                   className="min-w-0 flex-1 bg-transparent font-serif text-[28px] outline-none focus-visible:outline-none placeholder:text-ink-3 lg:text-[40px]"

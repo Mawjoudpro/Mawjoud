@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { site } from "@/lib/config";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import { IconCard, IconReturn, IconTag, IconTruck } from "@/components/ui/Icons";
+import { IconChat, IconReturn, IconTag, IconTruck } from "@/components/ui/Icons";
 
 /* ---------- 4 engagements ---------- */
 export function Promises() {
   const items = [
-    { icon: IconTag, title: "Des prix serrés", text: "Moins cher qu'ailleurs, sur des pièces de qualité." },
-    { icon: IconTruck, title: `Livrée en ${site.deliveryDelay}`, text: "Envoi suivi partout en France.", ph: true },
-    { icon: IconCard, title: "3x ou 4x sans frais", text: "Carte, Apple Pay ou en plusieurs fois." },
-    { icon: IconReturn, title: "Retours simples", text: `Tu changes d'avis ? Tu as ${site.returnsDelay}.`, ph: true },
+    { icon: IconTag, title: "Prix cassés", text: "Moins cher qu'ailleurs, sur des pièces de qualité." },
+    { icon: IconTruck, title: `Livré en ${site.deliveryDelay}`, text: "Envoi suivi partout en France." },
+    { icon: IconChat, title: `On répond en ${site.responseDelay}`, text: "Sur WhatsApp ou Snap." },
+    { icon: IconReturn, title: "Retours simples", text: `Tu changes d'avis ? Tu as ${site.returnsDelay}.` },
   ];
   return (
     <section aria-label="Nos engagements" className="border-y border-line">
@@ -131,16 +131,16 @@ export function Advisor() {
                 <p className="text-small font-semibold">
                   <span className="ph">{site.advisorName}</span>, ton conseiller
                 </p>
-                <p className="text-micro text-ink-2">Répond en <span className="ph">[DÉLAI DE RÉPONSE]</span></p>
+                <p className="text-micro text-ink-2">Répond en {site.responseDelay}</p>
               </div>
             </div>
             <div className="mt-5 grid gap-3 text-small">
-              <p className="max-w-[80%] justify-self-end rounded-2xl rounded-br-sm bg-ink px-4 py-3 text-paper">Salut, les sneakers noires en cuir, tu les as en 42 ?</p>
-              <p className="max-w-[80%] rounded-2xl rounded-bl-sm bg-paper px-4 py-3">Oui, il en reste. Je te les mets de côté jusqu&apos;à demain ?</p>
+              <p className="max-w-[80%] justify-self-end rounded-2xl rounded-br-sm bg-ink px-4 py-3 text-paper">Salut, la paire noire en cuir, tu l&apos;as en 42 ?</p>
+              <p className="max-w-[80%] rounded-2xl rounded-bl-sm bg-paper px-4 py-3">Oui, il en reste. Je te la mets de côté jusqu&apos;à demain ?</p>
               <div className="max-w-[80%] rounded-2xl rounded-bl-sm bg-paper p-2">
                 <PhotoSlot alt="" caption="[PHOTO PRODUIT]" tone={2} ratio="16/9" sizes="300px" />
                 <p className="flex items-baseline justify-between gap-3 px-2 pt-2 pb-1">
-                  <span>Sneakers basses cuir noir</span>
+                  <span>Paire basse cuir noir</span>
                   <span className="price ph">[PRIX]</span>
                 </p>
               </div>
@@ -158,7 +158,7 @@ export function Reviews() {
     <section aria-labelledby="rev-title" className="border-t border-line py-20 lg:py-28">
       <div className="wrap">
         <h2 id="rev-title" className="font-serif text-h2">
-          Ils ont commandé
+          ILS ONT COMMANDÉ, ILS ONT ADORÉ
         </h2>
         <ul className="mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
           {[0, 1, 2].map((i) => (

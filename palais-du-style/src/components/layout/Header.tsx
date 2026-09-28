@@ -18,7 +18,7 @@ export function Logotype({ small = false }: { small?: boolean }) {
   return (
     <span
       className={`block whitespace-nowrap font-serif uppercase leading-none transition-[font-size] duration-300 ${
-        small ? "text-[15px] tracking-[0.22em] lg:text-[19px] lg:tracking-[0.3em]" : "text-[16px] tracking-[0.22em] lg:text-[23px] lg:tracking-[0.3em]"
+        small ? "text-[15px] tracking-[0.22em] lg:text-[16px] lg:tracking-[0.26em] xl:text-[19px] xl:tracking-[0.3em]" : "text-[16px] tracking-[0.22em] lg:text-[18px] lg:tracking-[0.26em] xl:text-[22px] xl:tracking-[0.3em]"
       }`}
     >
       Palais du Style
@@ -39,9 +39,9 @@ function Announcement() {
         {[0, 1].map((k) => (
           <div key={k} className="flex h-9 shrink-0 items-center">
             {items.map((a, i) => (
-              <span key={i} className="flex items-center text-micro tracking-[0.02em]">
-                <span className="px-8">{a}</span>
-                <span className="size-1 rounded-full bg-gold" />
+              <span key={i} className="flex items-center text-micro font-medium tracking-[0.12em] uppercase">
+                <span className="px-7">{a}</span>
+                <span className="text-[10px] text-gold">✦</span>
               </span>
             ))}
           </div>
@@ -94,7 +94,7 @@ export function Header() {
         onKeyDown={(e) => e.key === "Escape" && setMega(null)}
       >
         <div
-          className={`wrap grid grid-cols-[auto_1fr_auto] items-center transition-[height] duration-300 ease-[var(--ease-soft)] lg:gap-x-8 xl:grid-cols-[1fr_auto_1fr] ${
+          className={`wrap grid grid-cols-[auto_1fr_auto] items-center transition-[height] duration-300 ease-[var(--ease-soft)] lg:gap-x-8 ${
             scrolled ? "h-14" : "h-16 lg:h-[72px]"
           }`}
         >
@@ -103,7 +103,7 @@ export function Header() {
             <button className="-ml-3 grid size-11 place-items-center lg:hidden" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu">
               <IconMenu />
             </button>
-            <nav aria-label="Navigation principale" className="hidden items-center gap-5 text-small font-medium xl:gap-7 lg:flex">
+            <nav aria-label="Navigation principale" className="hidden items-center gap-4 text-small font-medium whitespace-nowrap lg:flex xl:gap-6">
               <Link href="/boutique" className="navlink py-2" aria-current={pathname === "/boutique" ? "page" : undefined} onMouseEnter={scheduleClose}>
                 Nouveautés
               </Link>

@@ -1,4 +1,4 @@
-// TEXTES DU HERO (ta jamais vue une qualiter sa comme !). Modifie seulement ce qui est entre guillemets.
+// TEXTES DU HERO (haut de la page d'accueil). Modifie seulement ce qui est entre guillemets.
 // Un champ laissé vide ("") n'est pas affiché. Garde les guillemets, les virgules et les accolades.
 // surtitre      : petite ligne au-dessus du titre (optionnelle).
 // titre         : le grand titre. Écris \n pour forcer un retour à la ligne.
@@ -9,10 +9,10 @@
 // badges        : 3 courtes phrases au maximum, affichées sous les boutons.
 {
   "surtitre": "",
-  "titre": "Ta jamais.\nvue une qualité .\nça comme !.",
-  "titreAccent": ".",
-  "sousTitre": "Sneakers, sacs, vêtements et accessoires de qualité. Moins chers qu'ailleurs, livrés en [DÉLAI], payables en 3x ou 4x.",
-  "ctaPrincipal": { "texte": "Voir les nouveautés", "lien": "/boutique" },
-  "ctaSecondaire": { "texte": "Écrire à mon conseiller", "lien": "/conseiller" },
-  "badges": ["Paiement en 3x ou 4x sans frais", "Retours simples", "Un conseiller sur WhatsApp"]
+  "titre": "T'AS JAMAIS VU UNE QUALITÉ COMME ÇA !\nC'EST LA FRAPPE ! 🔥",
+  "titreAccent": "FRAPPE",
+  "sousTitre": "Paires de chaussures, sacs, sapes : une qualité incroyable, jamais vue ! Livré en 4 jours.",
+  "ctaPrincipal": { "texte": "JE VEUX VOIR", "lien": "/boutique" },
+  "ctaSecondaire": { "texte": "ÉCRIS-NOUS", "lien": "/conseiller" },
+  "badges": []
 }

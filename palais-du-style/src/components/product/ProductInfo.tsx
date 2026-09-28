@@ -7,7 +7,7 @@ import { formatPrice, getCategory, isSingleSize, type Product } from "@/lib/cata
 import { site } from "@/lib/config";
 import { useCart } from "@/components/cart/CartProvider";
 import { Price } from "@/components/ui/Price";
-import { IconCard, IconChat, IconCube, IconMinus, IconPlus, IconReturn, IconTruck } from "@/components/ui/Icons";
+import { IconChat, IconCube, IconMinus, IconPlus, IconReturn, IconTruck } from "@/components/ui/Icons";
 import { Badge } from "@/components/shop/ProductCard";
 import { ModelViewerDialog } from "./ModelViewerDialog";
 
@@ -92,7 +92,7 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
       <div>
         <Price price={p.price} compareAt={p.compareAtPrice} size="lg" />
         <p className="mt-3 text-small text-ink-2">
-          ou 3x <span className="price ph">{p.price == null ? "[MENSUALITÉ]" : formatPrice(Math.ceil(p.price / 3))}</span> sans frais · Ton économie : <span className="price ph text-gold-ink">[ÉCONOMIE]</span>
+          Ton économie : <span className="price ph text-gold-ink">[ÉCONOMIE]</span>
         </p>
       </div>
 
@@ -138,9 +138,18 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
       )}
 
       <div ref={buyRef} className="grid gap-3">
-        <button onClick={addToCart} disabled={soldOut} className="btn btn-ink w-full disabled:opacity-40">
-          {soldOut ? "Épuisé" : "Ajouter au panier"}
-        </button>
+        {soldOut ? (
+          <div className="grid gap-3 border border-line-2 bg-surface p-5">
+            <p className="font-medium">Victime de son succès ! Active la notif pour le prochain arrivage.</p>
+            <a href={`${site.whatsappUrl}?text=${encodeURIComponent(`Préviens-moi au prochain arrivage : ${p.title}`)}`} target="_blank" rel="noopener" className="btn btn-ink w-full">
+              Activer la notif
+            </a>
+          </div>
+        ) : (
+          <button onClick={addToCart} className="btn btn-ink w-full">
+            JE LA VEUX !
+          </button>
+        )}
         <a href={site.whatsappUrl} target="_blank" rel="noopener" className="btn btn-line w-full">
           <IconChat width={18} /> Réserver avec mon conseiller
         </a>
@@ -153,10 +162,7 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
 
       <ul className="grid gap-3 border-y border-line py-6 text-small">
         <li className="flex items-center gap-3">
-          <IconTruck width={18} className="shrink-0 text-gold-ink" /> <span>Livrée en <span className="ph">{site.deliveryDelay}</span>, suivi inclus</span>
-        </li>
-        <li className="flex items-center gap-3">
-          <IconCard width={18} className="shrink-0 text-gold-ink" /> Paiement en 3x ou 4x sans frais
+          <IconTruck width={18} className="shrink-0 text-gold-ink" /> <span>Livrée en {site.deliveryDelay}, suivi inclus</span>
         </li>
         <li className="flex items-center gap-3">
           <IconReturn width={18} className="shrink-0 text-gold-ink" /> <span>Retours sous <span className="ph">{site.returnsDelay}</span></span>
@@ -177,7 +183,7 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
         </Accordion>
         <Accordion title="Livraison">
           <p>
-            Expédition sous <span className="ph">[DÉLAI D&apos;EXPÉDITION]</span>, livraison en <span className="ph">{site.deliveryDelay}</span>. Offerte dès <span className="ph">[SEUIL]</span>. Main propre possible en Île-de-France sur rendez-vous.{" "}
+            Expédition sous <span className="ph">[DÉLAI D&apos;EXPÉDITION]</span>, livraison en {site.deliveryDelay}. Offerte dès <span className="ph">[SEUIL]</span>. Main propre possible en Île-de-France sur rendez-vous.{" "}
             <Link href="/livraison" className="underline underline-offset-4">
               Tout savoir
             </Link>
@@ -208,7 +214,7 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
               <p className={`price text-lead ${p.price == null ? "ph" : ""}`}>{formatPrice(p.price)}</p>
             </div>
             <button onClick={addToCart} className="btn btn-ink flex-1 px-4">
-              Ajouter au panier
+              JE LA VEUX !
             </button>
           </m.div>
         )}

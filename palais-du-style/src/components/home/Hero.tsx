@@ -6,24 +6,34 @@ import { BlasonHero } from "@/components/blason/BlasonHero";
 
 /*
  * Taille du titre calculée d'après sa longueur, pour qu'il tienne en 3 lignes au plus
- * sur mobile (390 px) et reste proportionné sur grand écran (Bodoni : ~0,5 em par caractère).
+ * sur mobile (390 px) et reste proportionné sur grand écran.
+ * Largeur estimée en em (Bodoni) : capitale ~0,62, minuscule ~0,5, espace ~0,25, emoji ~1,1.
  */
-const CHAR = 0.5;
 const WRAP = 0.88; // marge : un retour automatique laisse toujours un bout de ligne vide
 const MOBILE_WIDTH = 358; // largeur du titre à 390 px (écran moins 2 × 16 px)
 const DESKTOP_COLUMN = 0.45; // sur grand écran, la colonne du titre fait ~45 % de la fenêtre…
 const DESKTOP_WIDTH = 656; // …et 656 px au plus
 
+const emWidth = (text: string) =>
+  [...text].reduce((w, ch) => {
+    if (ch === " ") return w + 0.25;
+    if (/\p{Extended_Pictographic}/u.test(ch)) return w + 1.1;
+    if (/\p{Lu}/u.test(ch)) return w + 0.62;
+    if (/[.,;:!?'’]/.test(ch)) return w + 0.28;
+    return w + 0.5;
+  }, 0);
+
 /** Variables CSS --title-m (mobile) et --title-d (≥ 1024 px), proportionnelles à la largeur disponible. */
 function titleSize(lines: string[]) {
   const maxLines = Math.max(3, lines.length); // 3 lignes, ou plus si le titre force davantage de retours
-  const longestWord = Math.max(...lines.flatMap((l) => l.split(/\s+/)).map((w) => w.length));
+  const widths = lines.map(emWidth);
+  const longestWord = Math.max(...lines.flatMap((l) => l.split(/\s+/)).map(emWidth));
   // plus grande taille (px) pour laquelle le titre, retours automatiques compris, tient dans maxLines
   const fit = (width: number, max: number) => {
     for (let size = max; size > 20; size--) {
-      const perLine = (width * WRAP) / (size * CHAR);
-      const count = lines.reduce((n, l) => n + Math.max(1, Math.ceil(l.length / perLine)), 0);
-      if (count <= maxLines && longestWord <= perLine) return size;
+      const room = (width * WRAP) / size; // em disponibles par ligne
+      const count = widths.reduce((n, w) => n + Math.max(1, Math.ceil(w / room)), 0);
+      if (count <= maxLines && longestWord <= room) return size;
     }
     return 20;
   };
@@ -35,6 +45,9 @@ function titleSize(lines: string[]) {
   } as CSSProperties;
 }
 
+/** Typographie française : espace insécable après un nombre (« 4 jours ») et avant ! ? : ; */
+const typo = (text: string) => text.replace(/(\d) (?=\p{L})/gu, "$1\u00a0").replace(/ ([!?:;])/g, "\u202f$1");
+
 /** Retours à la ligne (\n) du titre. */
 const withBreaks = (text: string, key: string) =>
   text.split("\n").map((part, i) => (
@@ -45,7 +58,9 @@ const withBreaks = (text: string, key: string) =>
   ));
 
 /** Titre avec sa partie en doré italique, à sa place si elle y figure, sinon ajoutée à la fin. */
-function Title({ titre, accent }: { titre: string; accent: string }) {
+function Title({ titre: rawTitre, accent: rawAccent }: { titre: string; accent: string }) {
+  const titre = typo(rawTitre);
+  const accent = typo(rawAccent);
   let full = titre;
   if (accent && !titre.includes(accent)) full = titre ? `${titre}${titre.endsWith("\n") ? "" : " "}${accent}` : accent;
   const i = accent ? full.indexOf(accent) : -1;
@@ -54,13 +69,13 @@ function Title({ titre, accent }: { titre: string; accent: string }) {
       ? withBreaks(full, "t")
       : [
           ...withBreaks(full.slice(0, i), "a"),
-          <em key="accent" className="text-[#d9bd7a]">
+          <em key="accent" className="font-[family-name:var(--font-instrument)] font-normal text-[#C9A96E]">
             {withBreaks(accent, "b")}
           </em>,
           ...withBreaks(full.slice(i + accent.length), "c"),
         ];
   return (
-    <h1 id="hero-title" className="font-serif text-[length:var(--title-m)] leading-[0.95] tracking-[-0.025em] text-balance lg:text-[length:var(--title-d)]" style={titleSize(full.split("\n"))}>
+    <h1 id="hero-title" className="font-serif text-[length:var(--title-m)] leading-[1.02] tracking-[-0.02em] text-balance lg:text-[length:var(--title-d)]" style={titleSize(full.split("\n"))}>
       <span className="block overflow-hidden pb-[0.08em]">
         <span className="hero-line block">{parts}</span>
       </span>
@@ -70,7 +85,7 @@ function Title({ titre, accent }: { titre: string; accent: string }) {
 
 /** Un texte entre [crochets] s'affiche comme un contenu « à remplir ». */
 const withPlaceholders = (text: string) =>
-  text.split(/(\[[^\]]+\])/).map((part, i) =>
+  typo(text).split(/(\[[^\]]+\])/).map((part, i) =>
     /^\[[^\]]+\]$/.test(part) ? (
       <span key={i} className="ph">
         {part}

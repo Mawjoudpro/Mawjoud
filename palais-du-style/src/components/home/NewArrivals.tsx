@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { IconArrow, IconArrowLeft } from "@/components/ui/Icons";
 
 /** Carrousel horizontal : scroll-snap natif (swipe mobile), flèches sur desktop. */
-export function NewArrivals({ items, title = "Nouveautés", id = "nouveautes" }: { items: Product[]; title?: string; id?: string }) {
+export function NewArrivals({ items, title = "LES NOUVEAUTÉS DU MOMENT", id = "nouveautes", href = "/boutique" }: { items: Product[]; title?: string; id?: string; href?: string }) {
   const track = useRef<HTMLUListElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false, progress: 0 });
 
@@ -42,7 +42,7 @@ export function NewArrivals({ items, title = "Nouveautés", id = "nouveautes" }:
           {title}
         </h2>
         <div className="flex items-center gap-2">
-          <Link href="/boutique" className="navlink mr-4 hidden py-2 text-small font-medium sm:block">
+          <Link href={href} className="navlink mr-4 hidden py-2 text-small font-medium whitespace-nowrap sm:block">
             Tout voir
           </Link>
           <button onClick={() => go(-1)} disabled={edge.start} className="hidden size-12 place-items-center border border-line-2 transition-colors hover:border-ink disabled:opacity-30 lg:grid" aria-label="Pièces précédentes">
@@ -65,11 +65,11 @@ export function NewArrivals({ items, title = "Nouveautés", id = "nouveautes" }:
           </li>
         ))}
         <li className="flex w-[40vw] shrink-0 snap-start items-center justify-center sm:w-[24vw] lg:w-[14vw]">
-          <Link href="/boutique" className="flex flex-col items-center gap-3 text-small font-medium">
+          <Link href={href} className="flex flex-col items-center gap-3 text-small font-medium">
             <span className="grid size-16 place-items-center rounded-full border border-line-2">
               <IconArrow />
             </span>
-            Toute la boutique
+            Tout voir
           </Link>
         </li>
       </ul>

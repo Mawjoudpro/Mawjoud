@@ -26,6 +26,7 @@ export default function Home() {
       <Promises />
       <CategoryTiles tiles={tiles} />
       <NewArrivals items={newArrivals()} />
+      <NewArrivals items={products.filter((p) => p.category === "sneakers")} title="LES PAIRES QU'ON ADORE" id="paires" href="/boutique/sneakers" />
       <WhyCheaper />
       <PriceMatch />
       <Advisor />

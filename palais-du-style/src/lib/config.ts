@@ -4,10 +4,10 @@
  */
 export const site = {
   name: "Palais du Style",
-  tagline: "Mieux. Moins cher. Plus vite.",
+  tagline: "C'est la frappe !",
 
-  /** Délais affichés. Laisser les placeholders tant que le client n'a pas validé. */
-  deliveryDelay: "[DÉLAI]",
+  /** Délais affichés. */
+  deliveryDelay: "4 jours",
   returnsDelay: "[DÉLAI RETOURS]",
 
   /** Seuil de livraison offerte en euros. null = affiche [SEUIL]. */
@@ -20,6 +20,12 @@ export const site = {
   whatsappUrl: "https://wa.me/[NUMÉRO]",
   snapchatUrl: "https://www.snapchat.com/add/[IDENTIFIANT]",
   advisorName: "[PRÉNOM]",
+  /** Délai de réponse annoncé (bandeau, bloc conseiller). */
+  responseDelay: "5 min",
+
+  /** Réseaux sociaux (pied de page). */
+  tiktokUrl: "https://www.tiktok.com/@[IDENTIFIANT]",
+  instagramUrl: "https://www.instagram.com/[IDENTIFIANT]",
 
   legal: {
     company: "[RAISON SOCIALE]",
@@ -40,9 +46,5 @@ export const site = {
   } as Record<string, { model: string; poster: string }>,
 } as const;
 
-export const announcements = [
-  `Livraison en ${site.deliveryDelay}`,
-  "Paiement en 3x ou 4x sans frais",
-  `Retours simples sous ${site.returnsDelay}`,
-  "Un conseiller sur WhatsApp et Snap",
-];
+/** Bandeau défilant en haut du site (séparés par ✦). */
+export const announcements = ["La frappe", "Prix cassés", `Livré en ${site.deliveryDelay}`, `On répond en ${site.responseDelay}`];

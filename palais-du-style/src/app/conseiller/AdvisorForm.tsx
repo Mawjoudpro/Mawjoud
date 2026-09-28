@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
+import { site } from "@/lib/config";
 
 const channels = ["WhatsApp", "Snapchat", "E-mail"] as const;
 
@@ -15,7 +16,7 @@ export function AdvisorForm() {
       {sent ? (
         <m.div key="ok" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="grid gap-4 border-t border-ink pt-8" role="status">
           <p className="font-serif text-h3">C&apos;est envoyé.</p>
-          <p className="max-w-[44ch] text-ink-2">Ton conseiller te répond sur {channel} en <span className="ph">[DÉLAI DE RÉPONSE]</span> avec la pièce et son prix.</p>
+          <p className="max-w-[44ch] text-ink-2">Ton conseiller te répond sur {channel} en {site.responseDelay} avec la pièce et son prix.</p>
           <div>
             <Link href="/boutique" className="btn btn-ink">
               Continuer mes achats
@@ -36,7 +37,7 @@ export function AdvisorForm() {
             <label htmlFor="piece" className="text-small font-semibold">
               La pièce que tu cherches
             </label>
-            <textarea id="piece" required rows={3} placeholder="Ex. sneakers noires en cuir, ou colle un lien" className="min-h-28 resize-y border border-line-2 bg-surface px-4 py-3 outline-none focus:border-ink" />
+            <textarea id="piece" required rows={3} placeholder="Ex. paire noire en cuir, ou colle un lien" className="min-h-28 resize-y border border-line-2 bg-surface px-4 py-3 outline-none focus:border-ink" />
           </div>
           <div className="grid gap-2 sm:max-w-[220px]">
             <label htmlFor="taille" className="text-small font-semibold">
