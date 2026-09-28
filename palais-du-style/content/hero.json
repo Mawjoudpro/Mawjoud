@@ -9,7 +9,7 @@
 // badges        : 3 courtes phrases au maximum, affichées sous les boutons.
 {
   "surtitre": "",
-  "titre": "ta jamais.\nvue une qualité .\nça comme !.",
+  "titre": "Ta jamais.\nvue une qualité .\nça comme !.",
   "titreAccent": ".",
   "sousTitre": "Sneakers, sacs, vêtements et accessoires de qualité. Moins chers qu'ailleurs, livrés en [DÉLAI], payables en 3x ou 4x.",
   "ctaPrincipal": { "texte": "Voir les nouveautés", "lien": "/boutique" },
