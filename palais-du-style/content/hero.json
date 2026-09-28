@@ -1,4 +1,4 @@
-// TEXTES DU HERO (haut de la page d'accueil). Modifie seulement ce qui est entre guillemets.
+// TEXTES DU HERO (1;1). Modifie seulement ce qui est entre guillemets.
 // Un champ laissé vide ("") n'est pas affiché. Garde les guillemets, les virgules et les accolades.
 // surtitre      : petite ligne au-dessus du titre (optionnelle).
 // titre         : le grand titre. Écris \n pour forcer un retour à la ligne.
