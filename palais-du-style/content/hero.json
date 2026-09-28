@@ -9,8 +9,8 @@
 // badges        : 3 courtes phrases au maximum, affichées sous les boutons.
 {
   "surtitre": "",
-  "titre": "Mieux.\nMoins cher.\nPlus vite.",
-  "titreAccent": "Moins cher.",
+  "titre": "ta jamais.\nvue une qualité .\nça comme !.",
+  "titreAccent": "une qualité.",
   "sousTitre": "Sneakers, sacs, vêtements et accessoires de qualité. Moins chers qu'ailleurs, livrés en [DÉLAI], payables en 3x ou 4x.",
   "ctaPrincipal": { "texte": "Voir les nouveautés", "lien": "/boutique" },
   "ctaSecondaire": { "texte": "Écrire à mon conseiller", "lien": "/conseiller" },
