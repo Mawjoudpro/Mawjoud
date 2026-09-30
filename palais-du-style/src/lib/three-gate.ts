@@ -1,10 +1,8 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-
 /**
- * Décide si la 3D peut s'afficher, et garde la liste des zones qui la demandent
- * (tuiles de catégories). Ce fichier n'importe pas three.js : il reste dans le bundle initial.
+ * Décide si la 3D (sneaker du hero) et les effets coûteux (flou du moment cinéma) peuvent tourner.
+ * Ce fichier n'importe pas three.js : il reste dans le bundle initial.
  */
 export function canShow3D() {
   if (typeof window === "undefined") return false;
@@ -39,28 +37,4 @@ export function whenIdle(cb: () => void) {
   events.forEach((e) => window.addEventListener(e, run, { once: true, passive: true }));
   const timer = window.setTimeout(() => ("requestIdleCallback" in window ? window.requestIdleCallback(run, { timeout: 1500 }) : run()), 2500);
   return cleanup;
-}
-
-type Zone = "tiles";
-type Demand = Readonly<Record<Zone, boolean>>;
-
-let demand: Demand = { tiles: false };
-const NONE: Demand = { tiles: false };
-const listeners = new Set<() => void>();
-
-export function request3D(zone: Zone) {
-  if (demand[zone]) return;
-  demand = { ...demand, [zone]: true };
-  listeners.forEach((l) => l());
-}
-
-export function use3DDemand() {
-  return useSyncExternalStore(
-    (l) => {
-      listeners.add(l);
-      return () => listeners.delete(l);
-    },
-    () => demand,
-    () => NONE,
-  );
 }

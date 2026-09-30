@@ -8,7 +8,7 @@ export function LegalPage({ title, intro, sections }: { title: string; intro: st
     <div className="wrap grid gap-12 pt-12 pb-24 lg:grid-cols-12 lg:gap-8 lg:pt-20 lg:pb-32">
       <aside className="lg:col-span-4">
         <div className="lg:sticky lg:top-[96px]">
-          <h1 className="font-serif text-h2">{title}</h1>
+          <h1 className="font-display text-h2 uppercase">{title}</h1>
           <p className="mt-4 max-w-[36ch] text-ink-2">{intro}</p>
           <nav aria-label="Sommaire" className="mt-8 hidden lg:block">
             <ol className="grid gap-1 text-small">
@@ -26,7 +26,7 @@ export function LegalPage({ title, intro, sections }: { title: string; intro: st
       <div className="max-w-[68ch] lg:col-span-7 lg:col-start-6">
         {sections.map((s, i) => (
           <section key={s.title} id={`s${i + 1}`} className="scroll-mt-28 border-t border-line py-8 first:border-t-0 first:pt-0">
-            <h2 className="font-serif text-h4">{s.title}</h2>
+            <h2 className="font-display text-h4 uppercase">{s.title}</h2>
             <p className="mt-4 leading-relaxed text-ink-2">{s.body}</p>
           </section>
         ))}

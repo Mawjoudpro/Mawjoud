@@ -8,7 +8,7 @@ import { useOverlay } from "@/lib/useOverlay";
 import { ProductCard } from "./ProductCard";
 import { IconClose, IconFilter } from "@/components/ui/Icons";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 const SIZE_GROUPS = [
   { title: "Pointures", sizes: ["39", "40", "41", "42", "43", "44", "45"] },
   { title: "Vêtements", sizes: ["XS", "S", "M", "L", "XL"] },
@@ -137,14 +137,14 @@ export function Shop({ category }: { category?: Category }) {
             / {category ? <Link href="/boutique" className="hover:text-ink">Boutique</Link> : "Boutique"}
             {category && <> / {category.title}</>}
           </nav>
-          <h1 className="font-serif text-h1 tracking-[-0.02em]">{category ? category.title : "Toute la boutique"}</h1>
+          <h1 className="font-display text-h1 uppercase">{category ? category.title : "Toute la boutique"}</h1>
         </div>
         <p className="max-w-[40ch] text-ink-2">Des pièces choisies pour leur qualité, à un prix plus bas qu&apos;ailleurs. Quand c&apos;est parti, c&apos;est parti.</p>
       </header>
 
       <div className="sticky top-[calc(env(safe-area-inset-top)+56px)] z-20 -mx-[var(--gutter)] flex items-center justify-between gap-3 border-y border-line bg-paper/90 px-[var(--gutter)] py-2 backdrop-blur-xl lg:static lg:mx-0 lg:mb-10 lg:bg-transparent lg:px-0 lg:py-3 lg:backdrop-blur-none">
         <button onClick={() => setDrawer(true)} className="flex h-11 items-center gap-2 text-small font-medium lg:hidden">
-          <IconFilter width={18} /> Filtres {active > 0 && <span className="price grid size-5 place-items-center rounded-full bg-gold text-[11px] text-[#0a0a0a]">{active}</span>}
+          <IconFilter width={18} /> Filtres {active > 0 && <span className="price grid h-[22px] min-w-[22px] place-items-center rounded-full bg-gold px-1 text-[15px] leading-none text-black">{active}</span>}
         </button>
         <p className="hidden text-small text-ink-2 lg:block" role="status" aria-live="polite">
           <span className="price text-ink">{list.length}</span> pièce{list.length > 1 ? "s" : ""}
@@ -182,7 +182,7 @@ export function Shop({ category }: { category?: Category }) {
           <h2 className="sr-only">Pièces</h2>
           {list.length === 0 ? (
             <div className="grid justify-items-start gap-4 border-t border-line py-16">
-              <p className="font-serif text-h4">Aucune pièce ne correspond.</p>
+              <p className="font-serif text-h4 italic">Aucune pièce ne correspond.</p>
               <p className="text-ink-2">Change un filtre, ou demande à ton conseiller de la trouver.</p>
               <div className="flex gap-3">
                 <button onClick={reset} className="btn btn-ink">
@@ -224,7 +224,7 @@ export function Shop({ category }: { category?: Category }) {
               transition={{ duration: 0.45, ease }}
             >
               <header className="flex items-center justify-between border-b border-line px-[var(--gutter)] py-3">
-                <h2 id="filters-title" className="font-serif text-h4">
+                <h2 id="filters-title" className="font-display text-h4 uppercase">
                   Filtres
                 </h2>
                 <button onClick={() => setDrawer(false)} className="-mr-3 grid size-11 place-items-center" aria-label="Fermer les filtres" data-autofocus>

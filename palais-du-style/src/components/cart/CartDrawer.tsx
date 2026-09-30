@@ -9,7 +9,7 @@ import { site } from "@/lib/config";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { IconClose, IconMinus, IconPlus, IconArrow } from "@/components/ui/Icons";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 
 export function CartDrawer() {
   const { cartOpen, closeCart, lines, subtotal, savings, setQty, remove, count } = useCart();
@@ -34,7 +34,7 @@ export function CartDrawer() {
             transition={{ duration: 0.5, ease }}
           >
             <header className="flex items-center justify-between border-b border-line px-6 py-4">
-              <h2 id="cart-title" className="font-serif text-h4">
+              <h2 id="cart-title" className="font-display text-h4 uppercase">
                 Panier <span className="price text-body text-ink-2">({count})</span>
               </h2>
               <button onClick={closeCart} className="-mr-3 grid size-11 place-items-center" aria-label="Fermer le panier" data-autofocus>
@@ -66,7 +66,7 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto px-6">
               {lines.length === 0 ? (
                 <div className="grid justify-items-center gap-5 py-20 text-center">
-                  <p className="font-serif text-h4">Ton panier est vide</p>
+                  <p className="font-serif text-h4 italic">Ton panier est vide</p>
                   <p className="text-ink-2">Les bonnes pièces partent vite.</p>
                   <Link href="/boutique" onClick={closeCart} className="btn btn-ink">
                     Voir la boutique

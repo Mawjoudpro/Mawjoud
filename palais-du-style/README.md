@@ -1,7 +1,8 @@
 # Palais du Style — site de démonstration
 
 Boutique mode (sneakers, sacs, vêtements, accessoires) positionnée « la meilleure qualité au prix le plus bas ».
-Next.js 16 (App Router) · Tailwind CSS 4 · Framer Motion · React Three Fiber + drei · `<model-viewer>`.
+Next.js 16 (App Router) · Tailwind CSS 4 · GSAP ScrollTrigger + Lenis (desktop) · Framer Motion (tiroirs, filtres) ·
+React Three Fiber + drei (sneaker du hero) · `<model-viewer>` (vue 3D produit).
 
 - Plan de design (palette, typos, wireframes) : [`PLAN.md`](./PLAN.md)
 - Liste des contenus à remplir : [`PLACEHOLDERS.md`](./PLACEHOLDERS.md)
@@ -22,23 +23,46 @@ npm run lint
 
 En ligne de commande : `npx vercel` depuis ce dossier, puis `npx vercel --prod`.
 
+## Direction artistique
+Pensée d'abord pour un téléphone de 390 px, puis adaptée au desktop.
+- **Couleurs** : noir `#0E0E0C`, crème `#EDE9E1`, or `#C9A24B`. Rien d'autre (les gris sont des mélanges des trois).
+- **Typos** : Anton (nom, gros titres), Instrument Serif italique (accroches), JetBrains Mono (étiquettes, numéros,
+  prix), Archivo (texte courant). Jamais de texte sous 15 px, boutons de 52 px minimum, pleine largeur sur mobile.
+- **Mouvement** : `cubic-bezier(0.22, 1, 0.36, 1)`, 600 à 900 ms, jamais de rebond. Avec `prefers-reduced-motion`,
+  tout s'affiche directement dans son état final (c'est aussi l'état du HTML sans JavaScript).
+- **Détails** : étiquettes mono « (01) — … » (une par section), heure de Paris dans l'en-tête desktop, barre de
+  progression or en haut de page.
+
+## Page d'accueil
+| # | Section | Fichier | Mobile | Desktop |
+|---|---|---|---|---|
+| 1 | Hero | `home/Hero.tsx` | nom sur 2 lignes, bouton visible sans scroller à 390 × 700 | nom sur 1 ligne |
+| 2 | Manifeste | `home/Manifesto.tsx` | mots révélés au scroll (20 % → 100 %) | idem |
+| 3 | Le drop | `home/Drop.tsx` | carrousel natif au doigt (scroll-snap) | section épinglée, défilement horizontal (GSAP) |
+| 4 | Moment cinéma | `home/Cinema.tsx` | zoom 1 → 1,4 + fondu, flou seulement si l'appareil est puissant | zoom + fondu + flou |
+| 5 | On te répond 24h/24 | `home/Reply.tsx` | téléphone fixe, 4 étapes, texte dessous | texte à gauche / à droite |
+| 6 | Catégories | `home/Categories.tsx` | 2 × 2 | 4 colonnes |
+| 7 | Avis + pied de page | `home/Reviews.tsx`, `layout/Footer.tsx` | newsletter, réseaux, mentions | idem |
+
+Le nom « PALAIS DU STYLE » remplit exactement la largeur grâce aux unités de conteneur (`cqw`) et aux largeurs
+mesurées d'Anton (constantes dans `Hero.tsx`, `Reply.tsx`, `Categories.tsx`, `Footer.tsx`).
+Le scroll natif n'est jamais bloqué : les effets lisent la progression (`src/lib/scroll-progress.ts`,
+`ui/ScrollVar.tsx`) ; Lenis (`layout/SmoothScroll.tsx`) ne s'active que sur desktop à la souris.
+
 ## Structure
 ```
+content/hero.json         textes du hero (modifiables sur GitHub)
 src/
   app/                    pages (accueil, boutique, boutique/[categorie], produit/[handle],
-                          conseiller, cgv, mentions-legales, retours, livraison, 404)
+                          conseiller, cgv, mentions-legales, retours, livraison, 404, commande/confirmation)
   components/
-    layout/               bandeau d'annonce, header + méga-menu, menu mobile, recherche, footer
-    home/                 hero (textes : content/hero.json), engagements, catégories, carrousel, « pourquoi moins cher »,
-                          conseiller, avis, newsletter, garantie prix (désactivée)
-    shop/                 grille + filtres (panneau desktop / tiroir mobile), carte produit
-    product/              galerie (swipe mobile, zoom desktop), infos + tailles, vue 3D / AR
-    cart/                 panier (contexte + tiroir latéral)
-    three/                canvas 3D partagé des tuiles de catégories
-    blason/               blason 3D en or (hero, 404, confirmation)
-    ui/                   PhotoSlot, Price, icônes, toast, provider d'animations
+    home/                 hero, manifeste, drop, cinéma, « on te répond », catégories, avis
+    layout/               bandeau, en-tête (+ horloge, progression), menu mobile, recherche, pied de page, Lenis
+    shop/ product/ cart/  boutique, fiche produit, panier (menu, recherche et panier chargés à la 1re ouverture)
+    three/SneakerScene    scène 3D de la sneaker du hero
+    ui/                   PhotoSlot, Price, SectionLabel, ScrollVar, icônes, toast
   data/catalog.json       12 produits de démo, 4 catégories
-  lib/                    config (placeholders, options), catalogue, hook des tiroirs, vérif. modèles 3D
+  lib/                    config, catalogue, textes du hero, progression de scroll, tests 3D
 ```
 
 ## Textes du hero (`content/hero.json`)
@@ -49,67 +73,20 @@ affiché. La taille du titre s'adapte à sa longueur (3 lignes au plus sur mobil
 Lecture : `src/lib/hero-content.ts`.
 
 ## Réglages utiles (`src/lib/config.ts`)
-- `priceMatchEnabled` : `false` par défaut. Passer à `true` affiche le bloc « Garantie prix le plus bas »
-  sur l'accueil, uniquement si le client s'engage.
+- `deliveryDelay` (« 4 jours »), `availability` (« 24h/24 ») : repris dans le bandeau, les sections et les pages.
 - `freeShippingThreshold` : seuil de livraison offerte (en €). Active la barre de progression du panier.
-- `deliveryDelay`, `returnsDelay`, `whatsappUrl`, `snapchatUrl`, `legal`.
+- `returnsDelay`, `whatsappUrl`, `snapchatUrl`, `tiktokUrl`, `instagramUrl`, `legal`.
+- `heroModel` : chemin de la sneaker 3D du hero.
 
 ## 3D
-Un seul `<Canvas>` WebGL pour toute la page d'accueil (`src/components/three/Scene3D.tsx`), fixe, sous l'en-tête
-et sans capter les clics. Chaque zone 3D est une `<View>` drei posée dans le DOM : le hero et les tuiles de
-catégories. three.js n'est téléchargé que lorsqu'une zone demande la 3D (`src/lib/three-gate.ts`).
-
-Fichiers :
-- `assets/models/<nom>-source.glb` : modèles d'origine (non publiés).
-- `public/models/<nom>.glb` : versions optimisées. Un `sneakers.glb` servirait au hero, à la tuile Sneakers et à la vue 360° (retiré pour l'instant : le hero affiche `[PHOTO CAMPAGNE]`).
-- `public/models/<nom>-poster.webp`, `sneakers-hero.webp` : images fixes des modèles (même cadrage que la 3D),
-  affichées pendant le chargement et quand la 3D est désactivée.
-- `public/vendor/meshopt_decoder.js` : décodeur Meshopt servi localement pour `<model-viewer>`.
-
-Ajouter ou remplacer un modèle (ex. `vetements`) :
-1. Déposer `assets/models/vetements-source.glb`.
-2. `npm run optimize:model` (ou `npm run optimize:model vetements`) : normales lisses si absentes, matériau
-   non métallique si non renseigné, textures WebP 1024 px, compression Meshopt.
-3. Créer `public/models/vetements-poster.webp` (capture de la tuile, fond transparent).
-4. Pousser sur GitHub : Vercel redéploie. Les fichiers sont détectés **au build** (`src/lib/models.ts`) ; une
-   catégorie sans fichier garde son emplacement photo.
-
-Hero :
-- Image fixe rendue par le serveur, puis 3D à la première interaction (ou après 2,5 s de calme).
-- Rotation lente, drag avec inertie, inclinaison vers la souris (10° max), flottaison avec ombre au sol qui se
-  resserre quand le modèle monte. Modèle et ombre sont dans le même groupe.
-- Au scroll, la sneaker reste dans le hero : elle tourne de 90° au plus, descend légèrement et s'estompe avant que
-  le hero ne sorte de l'écran.
-
-Tuiles de catégories :
-- 3D initialisée seulement quand la section approche de l'écran. Modèles normalisés avec Box3 (même présence
-  visuelle), flottaison douce, rotation lente (plus rapide et +5 % au survol sur desktop), rotation uniquement
-  quand la tuile est visible. La tuile reste un lien.
-
-3D désactivée (image fixe) si `prefers-reduced-motion`, si l'appareil a 4 cœurs ou moins, si l'économie de données
-est activée ou sans WebGL. L'éclairage « studio » de drei vient d'un CDN ; s'il échoue, l'éclairage de base reste.
-
-## Blason 3D (`<BlasonHero />`)
-Le blason de la marque en or massif, dans le hero (sur le noir #0b0b0a), la 404 et la confirmation de commande.
-
-```tsx
-<BlasonHero mode="hero" priority />        // poussière d'or, bloom, inclinaison souris / gyroscope
-<BlasonHero mode="small" size={180} />     // rotation lente seule (404, confirmation)
-<BlasonHero mode="loader" size={140} />    // écran de chargement : l'image fixe respire, la 3D suit si l'attente dure
-```
-
-- `public/brand/blason.svg` : vectorisé depuis `assets/brand/blason-source.png` (`python3 scripts/vectorize-blason.py`).
-- `src/components/blason/BlasonScene.tsx` : SVGLoader + ExtrudeGeometry (biseau fin), or MeshPhysical (métal, rugosité
-  0,28, léger vernis), reflets par Lightformers (softboxes blanches + une chaude), clé chaude et contre-jour,
-  un tour en 40 s, flottement léger, inclinaison max 8° très amortie, paillettes (Sparkles), bloom discret.
-  Quand le blason montre son dos, une copie tournée de 180° prend le relais : le texte se lit toujours dans le bon sens.
-- Vignettage : dégradé CSS sur tout le hero (pas de cadre visible autour du canvas).
-- Chargé après le texte (première interaction ou 2,5 s de calme), animation en pause hors écran, dpr ≤ 1,5
-  (1,25 sur mobile, sans anticrénelage).
-- Image fixe `public/brand/blason-3d.webp` (générée depuis le rendu 3D) affichée d'abord, et gardée si
-  `prefers-reduced-motion`, sans WebGL, `deviceMemory` ≤ 4 ou `hardwareConcurrency` ≤ 4.
-- Regénérer l'image fixe : `BLASON_STUDIO=1 npx next start`, ouvrir `/atelier/blason` (fond transparent, haute
-  définition), capturer `#blason-studio` sans fond, enregistrer en WebP. Sans cette variable, la page renvoie 404.
+Une seule scène 3D : la sneaker qui flotte sur le nom, dans le hero (`home/HeroSneaker.tsx`, `three/SneakerScene.tsx`).
+- Sans fichier `public/models/sneaker.glb`, le hero affiche l'emplacement `[SNEAKER 3D]`. Le fichier est détecté
+  **au build** (`src/lib/models.ts`) : il suffit de le pousser sur GitHub, Vercel redéploie.
+- Préparer le modèle : déposer `assets/models/sneaker-source.glb`, puis `npm run optimize:model sneaker`
+  (normales lisses, textures WebP 1024 px, compression Meshopt). Viser moins de 1 Mo. Aucune marque visible.
+- Image fixe optionnelle `public/models/sneaker-poster.webp` (même cadrage) : affichée pendant le chargement.
+- La 3D arrive après le texte (premier geste ou 2,5 s de calme), se met en pause hors écran, et reste désactivée
+  si `prefers-reduced-motion`, 4 cœurs ou moins, `deviceMemory` ≤ 4, économie de données ou pas de WebGL.
 
 ## Brancher Shopify plus tard
 Les types de `src/lib/catalog.ts` suivent la Storefront API (`handle`, `title`, `variants[].availableForSale`,
@@ -118,9 +95,8 @@ Les types de `src/lib/catalog.ts` suivent la Storefront API (`handle`, `title`, 
 vers le `checkoutUrl` de Shopify).
 
 ## Qualité
-- Testé en 375, 768, 1280 et 1440 px, sans débordement horizontal. Zones tactiles de 44 px minimum.
-- Lighthouse mobile mesuré en local (build de production) : accessibilité 100, bonnes pratiques 100, SEO 100,
-  performance 93 sur toutes les pages (y compris une page légale presque vide : c'est le socle Next.js/React).
-  À re-mesurer sur l'URL Vercel (CDN, HTTP/2, compression Brotli).
-- Mode sombre automatique (préférence système), `prefers-reduced-motion` respecté, focus visibles, tiroirs
-  accessibles au clavier (focus piégé, Échap, retour du focus).
+- Testé à 375, 390, 1024 et 1440 px : aucun débordement horizontal, aucun texte sous 15 px, boutons ≥ 52 px.
+- Lighthouse mobile mesuré en local (build de production) : accueil 93, boutique 90, fiche produit 91 ;
+  bonnes pratiques et SEO 100. Accessibilité 100 sur les pages internes, 96 sur l'accueil : l'outil relève les mots
+  du manifeste encore à 20 % d'opacité (effet voulu, texte complet lu par les lecteurs d'écran).
+- Le JavaScript initial de l'accueil ne contient ni Framer Motion ni three.js ni GSAP : ils se chargent à la demande.

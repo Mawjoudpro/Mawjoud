@@ -19,7 +19,7 @@ declare module "react" {
 
 const noop = () => () => {};
 const ORBIT = "30deg 75deg 105%";
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 
 /** Vue 360° avec <model-viewer> : drag, zoom limité, reset, et AR sur mobile. */
 export function ModelViewerDialog({ src, title, open, onClose }: { src: string; title: string; open: boolean; onClose: () => void }) {

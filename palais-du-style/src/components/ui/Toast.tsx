@@ -1,32 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
 
-/** Petit message de confirmation. Déclenché par un évènement `pds:toast`. */
+/** Petit message de confirmation. Déclenché par un évènement `pds:toast`. Animation en CSS (aucune bibliothèque). */
 export function Toast() {
   const [msg, setMsg] = useState<string | null>(null);
+  const [shown, setShown] = useState(false);
   useEffect(() => {
     let t: number | undefined;
     const on = (e: Event) => {
       setMsg((e as CustomEvent<string>).detail);
+      setShown(true);
       window.clearTimeout(t);
-      t = window.setTimeout(() => setMsg(null), 3200);
+      t = window.setTimeout(() => setShown(false), 3200);
     };
     window.addEventListener("pds:toast", on);
     return () => window.removeEventListener("pds:toast", on);
   }, []);
   return (
     <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+88px)] z-[60] flex justify-center px-4 lg:bottom-8">
-      <AnimatePresence>
-        {msg && (
-          <m.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} className="max-w-md bg-ink px-5 py-3.5 text-center text-small font-medium text-paper">
-            {msg}
-          </m.p>
-        )}
-      </AnimatePresence>
+      {msg && (
+        <p className={`max-w-md bg-ink px-5 py-3.5 text-center text-small font-medium text-paper transition-[opacity,transform] duration-600 ease-[var(--ease-out)] ${shown ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}>
+          {msg}
+        </p>
+      )}
     </div>
   );
 }
-
-export const toast = (detail: string) => window.dispatchEvent(new CustomEvent("pds:toast", { detail }));

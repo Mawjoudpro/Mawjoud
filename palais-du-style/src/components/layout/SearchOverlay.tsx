@@ -1,5 +1,6 @@
 "use client";
 
+import { MotionProvider } from "@/components/ui/MotionProvider";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
@@ -9,10 +10,10 @@ import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Price } from "@/components/ui/Price";
 import { IconClose, IconSearch } from "@/components/ui/Icons";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
+function SearchOverlayInner({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useOverlay<HTMLDivElement>(open, onClose);
   const [q, setQ] = useState("");
   const results = useMemo(() => {
@@ -55,7 +56,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                   placeholder="Paire de chaussures, sac, hoodie…"
                   autoComplete="off"
                   enterKeyHint="search"
-                  className="min-w-0 flex-1 bg-transparent font-serif text-[28px] outline-none focus-visible:outline-none placeholder:text-ink-3 lg:text-[40px]"
+                  className="min-w-0 flex-1 bg-transparent font-serif text-[28px] italic outline-none focus-visible:outline-none placeholder:text-ink-3 lg:text-[40px]"
                 />
                 <button type="button" onClick={close} className="-mr-3 grid size-11 shrink-0 place-items-center" aria-label="Fermer la recherche">
                   <IconClose />
@@ -100,5 +101,14 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
         </div>
       )}
     </AnimatePresence>
+  );
+}
+
+/** Avec son propre fournisseur d'animations : chargé à la demande, hors du JavaScript initial. */
+export function SearchOverlay(props: Parameters<typeof SearchOverlayInner>[0]) {
+  return (
+    <MotionProvider>
+      <SearchOverlayInner {...props} />
+    </MotionProvider>
   );
 }

@@ -4,8 +4,8 @@ import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Price } from "@/components/ui/Price";
 
 export function Badge({ tag }: { tag: string }) {
-  if (tag === "nouveau") return <span className="bg-paper px-2 py-1 text-[11px] font-semibold tracking-wide text-ink">Nouveau</span>;
-  if (tag === "derniere-piece") return <span className="bg-ink px-2 py-1 text-[11px] font-semibold tracking-wide text-paper">Dernière pièce</span>;
+  if (tag === "nouveau") return <span className="bg-paper px-2 py-0.5 font-mono text-micro text-ink uppercase">Nouveau</span>;
+  if (tag === "derniere-piece") return <span className="bg-ink px-2 py-0.5 font-mono text-micro text-paper uppercase">Dernière pièce</span>;
   return null;
 }
 

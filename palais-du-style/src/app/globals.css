@@ -1,62 +1,32 @@
 @import "tailwindcss";
 
-/* ---------- tokens ---------- */
+/* ---------- tokens ----------
+ * Trois couleurs seulement : noir #0E0E0C, crème #EDE9E1, or #C9A24B.
+ * Les nuances (texte secondaire, filets, aplats photo) sont des mélanges de ces trois-là.
+ */
 :root {
-  --paper: #f6f6f4;
-  --surface: #ffffff;
-  --ink: #0a0a0a;
-  --ink-2: #52524f;
-  --ink-3: #6e6e6a;
-  --line: #e2e2de;
-  --line-2: #cfcfca;
+  color-scheme: light;
+  --black: #0e0e0c;
+  --cream: #ede9e1;
   --gold: #c9a24b;
-  --gold-ink: #8a6a1f;
-  --tone-1: #ecebe7;
-  --tone-2: #e3e1dc;
-  --tone-3: #d9d7d1;
-  --tone-4: #cfccc5;
-  --tone-5: #c6c3bb;
-  --scrim: rgb(10 10 10 / 0.42);
+  --paper: var(--cream);
+  --ink: var(--black);
+  --surface: color-mix(in srgb, var(--black) 4%, var(--cream));
+  --ink-2: color-mix(in srgb, var(--black) 74%, var(--cream));
+  --ink-3: color-mix(in srgb, var(--black) 62%, var(--cream));
+  --line: color-mix(in srgb, var(--black) 13%, var(--cream));
+  --line-2: color-mix(in srgb, var(--black) 24%, var(--cream));
+  /* or lisible en petit texte sur crème (contraste AA) */
+  --gold-ink: color-mix(in srgb, var(--gold) 58%, var(--black));
+  --tone-1: color-mix(in srgb, var(--black) 5%, var(--cream));
+  --tone-2: color-mix(in srgb, var(--black) 8%, var(--cream));
+  --tone-3: color-mix(in srgb, var(--black) 11%, var(--cream));
+  --tone-4: color-mix(in srgb, var(--black) 14%, var(--cream));
+  --tone-5: color-mix(in srgb, var(--black) 17%, var(--cream));
+  --scrim: rgb(14 14 12 / 0.5);
   --hdr: 72px;
   --gutter: clamp(16px, 3.4vw, 48px);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper: #0b0b0a;
-    --surface: #141413;
-    --ink: #f2f1ee;
-    --ink-2: #a5a49f;
-    --ink-3: #8c8b86;
-    --line: #262624;
-    --line-2: #3a3936;
-    --gold: #d2ae5e;
-    --gold-ink: #d2ae5e;
-    --tone-1: #1a1a18;
-    --tone-2: #1f1f1d;
-    --tone-3: #242422;
-    --tone-4: #2a2927;
-    --tone-5: #302f2c;
-    --scrim: rgb(0 0 0 / 0.6);
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #0b0b0a;
-  --surface: #141413;
-  --ink: #f2f1ee;
-  --ink-2: #a5a49f;
-  --ink-3: #8c8b86;
-  --line: #262624;
-  --line-2: #3a3936;
-  --gold: #d2ae5e;
-  --gold-ink: #d2ae5e;
-  --tone-1: #1a1a18;
-  --tone-2: #1f1f1d;
-  --tone-3: #242422;
-  --tone-4: #2a2927;
-  --tone-5: #302f2c;
-  --scrim: rgb(0 0 0 / 0.6);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -69,14 +39,18 @@
   --color-line-2: var(--line-2);
   --color-gold: var(--gold);
   --color-gold-ink: var(--gold-ink);
-  --font-serif: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
+  --color-black: var(--black);
+  --color-cream: var(--cream);
+  --font-display: var(--font-anton), "Impact", "Arial Narrow", sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
   --font-sans: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --ease-soft: cubic-bezier(0.2, 0.75, 0.15, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* échelle typo stricte : 12 14 16 20 28 40 56 84 144 */
-  --text-micro: 12px;
+  /* échelle typo : jamais sous 15 px (lecture sur téléphone) */
+  --text-micro: 15px;
   --text-micro--line-height: 1.4;
-  --text-small: 14px;
+  --text-small: 15px;
   --text-small--line-height: 1.5;
   --text-body: 16px;
   --text-body--line-height: 1.6;
@@ -123,7 +97,7 @@ h3 {
 }
 ::selection {
   background: var(--gold);
-  color: #0a0a0a;
+  color: var(--black);
 }
 
 /* ---------- utilitaires maison ---------- */
@@ -134,10 +108,10 @@ h3 {
   padding-inline: var(--gutter);
 }
 @utility price {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 @utility no-scrollbar {
   scrollbar-width: none;
@@ -173,12 +147,16 @@ h3 {
   &:active {
     transform: scale(0.985);
   }
+  @media (max-width: 639px) {
+    width: 100%;
+  }
 }
 @utility btn-ink {
   background: var(--ink);
   color: var(--paper);
   &:hover {
-    background: color-mix(in srgb, var(--ink) 82%, var(--gold));
+    background: var(--gold);
+    color: var(--black);
   }
 }
 @utility btn-line {
@@ -233,35 +211,137 @@ h3 {
   }
 }
 
-/* entrée orchestrée du hero (seule animation d'entrée du site) */
+/* point or de l'horloge */
+@keyframes clock-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+.clock-dot {
+  animation: clock-pulse 2s var(--ease-out) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .clock-dot {
+    animation: none;
+  }
+}
+
+/* entrée du hero : le contenu est déjà là, il se pose (jamais d'écran vide) */
 @keyframes hero-rise {
   from {
-    transform: translateY(105%);
+    transform: translateY(0.18em);
   }
 }
 @keyframes hero-fade {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
   }
 }
-.hero-line {
-  animation: hero-rise 0.95s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+.hero-rise {
+  animation: hero-rise 0.9s var(--ease-out) both;
+}
+.hero-rise-2 {
+  animation-delay: 0.06s;
 }
 .hero-fade {
-  animation: hero-fade 0.8s 0.5s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+  animation: hero-fade 0.8s 0.15s var(--ease-out) both;
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-line,
+  .hero-rise,
   .hero-fade {
     animation: none;
   }
 }
 
-/* écran de chargement : le blason fixe respire doucement */
-@keyframes blason-breathe {
-  50% {
-    opacity: 0.72;
-    transform: scale(0.985);
+/* manifeste : chaque mot passe de 20 % à 100 % d'opacité selon la progression --p */
+.manifesto-word {
+  opacity: clamp(0.2, calc(0.2 + 0.8 * (var(--p, 1) * (var(--n) + 3) - var(--i)) / 3), 1);
+  transition: opacity 0.2s linear;
+}
+
+/* moment cinéma : --p = progression dans la section (1 par défaut = état final) */
+.cine {
+  --q: clamp(0, calc((var(--p, 1) - 0.12) / 0.5), 1); /* netteté de la phrase */
+}
+.cine-zoom {
+  transform: scale(calc(1 + 0.4 * var(--p, 1)));
+}
+.cine-veil {
+  opacity: calc(0.15 + 0.45 * var(--p, 1));
+}
+.cine-text {
+  opacity: var(--q);
+  transform: translateY(calc((1 - var(--q)) * 24px));
+}
+.cine[data-fx="full"] .cine-text {
+  filter: blur(calc((1 - var(--q)) * 16px));
+}
+
+/* texte d'étape (section « On te répond ») */
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.caption-in {
+  animation: caption-in 0.7s var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .caption-in {
+    animation: none;
+  }
+}
+
+/* bulle de conversation qui arrive */
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+.bubble-in {
+  animation: bubble-in 0.6s var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble-in {
+    animation: none;
+  }
+}
+
+/* changement de page (hors premier affichage) et ouverture du méga-menu */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.page-in {
+  animation: page-in 0.6s var(--ease-out) both;
+}
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+.mega-in {
+  animation: mega-in 0.6s var(--ease-out) both;
+}
+@keyframes badge-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+.badge-pop {
+  animation: badge-pop 0.6s var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-in,
+  .mega-in,
+  .badge-pop {
+    animation: none;
   }
 }

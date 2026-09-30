@@ -11,7 +11,7 @@ import { IconChat, IconCube, IconMinus, IconPlus, IconReturn, IconTruck } from "
 import { Badge } from "@/components/shop/ProductCard";
 import { ModelViewerDialog } from "./ModelViewerDialog";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 
 function Accordion({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -85,7 +85,7 @@ export function ProductInfo({ product: p, model3d }: { product: Product; model3d
             <Badge tag={tag} />
           </div>
         )}
-        <h1 className="font-serif text-h2 tracking-[-0.015em]">{p.title}</h1>
+        <h1 className="font-display text-h2 leading-[0.95] uppercase">{p.title}</h1>
         <p className="mt-2 text-small text-ink-2">{p.color}</p>
       </div>
 

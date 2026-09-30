@@ -27,7 +27,7 @@ export function PhotoSlot({ src, alt, caption, tone = 2, ratio = "4/5", sizes = 
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
       ) : (
         <div role="img" aria-label={alt} className="absolute inset-0 grid place-items-center p-4">
-          <span className="text-center text-[11px] font-medium tracking-[0.12em] text-ink/70">{caption}</span>
+          <span className="text-center font-mono text-micro tracking-[0.02em] text-ink-2 uppercase">{caption}</span>
         </div>
       )}
     </div>

@@ -15,8 +15,8 @@ export function AdvisorForm() {
     <AnimatePresence mode="wait">
       {sent ? (
         <m.div key="ok" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="grid gap-4 border-t border-ink pt-8" role="status">
-          <p className="font-serif text-h3">C&apos;est envoyé.</p>
-          <p className="max-w-[44ch] text-ink-2">Ton conseiller te répond sur {channel} en {site.responseDelay} avec la pièce et son prix.</p>
+          <p className="font-serif text-h3 italic">C&apos;est envoyé.</p>
+          <p className="max-w-[44ch] text-ink-2">Ton conseiller te répond sur {channel}, {site.availability}, avec la pièce et son prix.</p>
           <div>
             <Link href="/boutique" className="btn btn-ink">
               Continuer mes achats

@@ -3,33 +3,31 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import { categories } from "@/lib/catalog";
+import dynamic from "next/dynamic";
+import type { Category } from "@/lib/catalog";
 import { announcements } from "@/lib/config";
 import { useCart } from "@/components/cart/CartProvider";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { IconBag, IconMenu, IconSearch } from "@/components/ui/Icons";
-import { MobileMenu } from "./MobileMenu";
-import { SearchOverlay } from "./SearchOverlay";
+import { ParisClock, ScrollProgress } from "./HeaderExtras";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+// menu mobile et recherche : chargés à la première ouverture (pas dans le JavaScript initial)
+const MobileMenu = dynamic(() => import("./MobileMenu").then((m) => m.MobileMenu), { ssr: false });
+const SearchOverlay = dynamic(() => import("./SearchOverlay").then((m) => m.SearchOverlay), { ssr: false });
 
 export function Logotype({ small = false }: { small?: boolean }) {
   return (
-    <span
-      className={`block whitespace-nowrap font-serif uppercase leading-none transition-[font-size] duration-300 ${
-        small ? "text-[15px] tracking-[0.22em] lg:text-[16px] lg:tracking-[0.26em] xl:text-[19px] xl:tracking-[0.3em]" : "text-[16px] tracking-[0.22em] lg:text-[18px] lg:tracking-[0.26em] xl:text-[22px] xl:tracking-[0.3em]"
-      }`}
-    >
+    <span className={`block whitespace-nowrap font-display leading-none tracking-[0.01em] uppercase transition-[font-size] duration-500 ease-[var(--ease-out)] ${small ? "text-[21px] lg:text-[24px]" : "text-[23px] lg:text-[28px]"}`}>
       Palais du Style
     </span>
   );
 }
 
+/** Bandeau défilant : étiquettes mono sur noir, séparées par une étoile or. */
 function Announcement() {
   const items = [...announcements, ...announcements];
   return (
-    <div className="marquee relative overflow-hidden bg-[#0a0a0a] text-[#f2f1ee]" aria-label="Informations">
+    <div className="marquee relative overflow-hidden bg-black text-cream" aria-label="Informations">
       <ul className="sr-only">
         {announcements.map((a) => (
           <li key={a}>{a}</li>
@@ -39,9 +37,9 @@ function Announcement() {
         {[0, 1].map((k) => (
           <div key={k} className="flex h-9 shrink-0 items-center">
             {items.map((a, i) => (
-              <span key={i} className="flex items-center text-micro font-medium tracking-[0.12em] uppercase">
-                <span className="px-7">{a}</span>
-                <span className="text-[10px] text-gold">✦</span>
+              <span key={i} className="flex items-center font-mono text-micro tracking-[0.04em] uppercase">
+                <span className="px-6">{a}</span>
+                <span className="text-gold">✦</span>
               </span>
             ))}
           </div>
@@ -51,13 +49,18 @@ function Announcement() {
   );
 }
 
-export function Header() {
+export function Header({ categories }: { categories: Category[] }) {
   const pathname = usePathname();
   const { count, openCart, pulse } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mega, setMega] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  // une fois ouverts, le menu et la recherche restent montés (animation de fermeture)
+  const [menuUsed, setMenuUsed] = useState(false);
+  const [searchUsed, setSearchUsed] = useState(false);
+  if (menuOpen && !menuUsed) setMenuUsed(true);
+  if (searchOpen && !searchUsed) setSearchUsed(true);
   const closeTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
@@ -85,10 +88,11 @@ export function Header() {
 
   return (
     <>
+      <ScrollProgress />
       <Announcement />
       <header
         className={`sticky top-[env(safe-area-inset-top)] z-40 transition-[background-color,border-color] duration-300 ${
-          scrolled || mega ? "border-b border-line bg-paper/90 backdrop-blur-xl backdrop-saturate-150" : "border-b border-transparent bg-paper"
+          scrolled || mega ? "border-b border-line bg-paper/92 backdrop-blur-xl" : "border-b border-transparent bg-paper"
         }`}
         onMouseLeave={scheduleClose}
         onKeyDown={(e) => e.key === "Escape" && setMega(null)}
@@ -103,7 +107,7 @@ export function Header() {
             <button className="-ml-3 grid size-11 place-items-center lg:hidden" onClick={() => setMenuOpen(true)} aria-label="Ouvrir le menu">
               <IconMenu />
             </button>
-            <nav aria-label="Navigation principale" className="hidden items-center gap-4 text-small font-medium whitespace-nowrap lg:flex xl:gap-6">
+            <nav aria-label="Navigation principale" className="hidden items-center gap-5 text-small font-medium whitespace-nowrap lg:flex xl:gap-7">
               <Link href="/boutique" className="navlink py-2" aria-current={pathname === "/boutique" ? "page" : undefined} onMouseEnter={scheduleClose}>
                 Nouveautés
               </Link>
@@ -135,46 +139,29 @@ export function Header() {
               <IconSearch />
               <span className="hidden xl:inline">Rechercher</span>
             </button>
-            <Link href="/conseiller" className="navlink hidden px-3 py-2 text-small font-medium lg:block" aria-current={pathname === "/conseiller" ? "page" : undefined}>
-              Conseiller
-            </Link>
+            <ParisClock className="mr-2 hidden lg:flex" />
             <button onClick={openCart} className="relative grid size-11 place-items-center" aria-label={`Ouvrir le panier, ${count} article${count > 1 ? "s" : ""}`}>
-              <m.span key={pulse} initial={pulse ? { scale: 0.8 } : false} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500, damping: 15 }}>
+              <span key={pulse} className={pulse ? "badge-pop" : undefined}>
                 <IconBag />
-              </m.span>
-              <AnimatePresence>
-                {count > 0 && (
-                  <m.span
-                    key={count}
-                    initial={{ scale: 0.4, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.4, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 520, damping: 18 }}
-                    className="price absolute top-1.5 right-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-gold px-1 text-[11px] text-[#0a0a0a]"
-                  >
-                    {count}
-                  </m.span>
-                )}
-              </AnimatePresence>
+              </span>
+              {count > 0 && (
+                <span key={count} className="badge-pop absolute top-0 -right-0.5 grid h-[22px] min-w-[22px] place-items-center rounded-full bg-gold px-1 font-mono text-[15px] leading-none text-black">
+                  {count}
+                </span>
+              )}
             </button>
           </div>
         </div>
 
         {/* méga-menu desktop */}
-        <AnimatePresence>
-          {active && (
-            <m.div
-              key="mega"
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.25, ease }}
-              className="absolute inset-x-0 top-full hidden border-b border-line bg-paper lg:block"
+        {active && (
+            <div
+              className="mega-in absolute inset-x-0 top-full hidden border-b border-line bg-paper lg:block"
               onMouseEnter={() => openMega(active.handle)}
             >
               <div className="wrap grid grid-cols-[1fr_1fr_2fr] gap-12 py-10">
                 <div>
-                  <p className="mb-5 font-serif text-h4">{active.title}</p>
+                  <p className="mb-5 font-display text-h4 uppercase">{active.title}</p>
                   <ul className="grid gap-2 text-body">
                     {active.subs.map((s) => (
                       <li key={s}>
@@ -186,7 +173,7 @@ export function Header() {
                   </ul>
                 </div>
                 <div>
-                  <p className="mb-5 font-serif text-h4">Raccourcis</p>
+                  <p className="mb-5 font-display text-h4 uppercase">Raccourcis</p>
                   <ul className="grid gap-2 text-body">
                     <li>
                       <Link href={`/boutique/${active.handle}`} className="navlink inline-block py-1">
@@ -214,13 +201,12 @@ export function Header() {
                   ))}
                 </div>
               </div>
-            </m.div>
+            </div>
           )}
-        </AnimatePresence>
       </header>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onSearch={() => { setMenuOpen(false); setSearchOpen(true); }} />
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      {menuUsed && <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onSearch={() => { setMenuOpen(false); setSearchOpen(true); }} />}
+      {searchUsed && <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />}
     </>
   );
 }

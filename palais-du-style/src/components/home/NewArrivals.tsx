@@ -38,7 +38,7 @@ export function NewArrivals({ items, title = "LES NOUVEAUTÉS DU MOMENT", id = "
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="py-20 lg:py-28">
       <div className="wrap flex items-end justify-between gap-6">
-        <h2 id={`${id}-title`} className="font-serif text-h1 tracking-[-0.02em]">
+        <h2 id={`${id}-title`} className="font-display text-h1 uppercase">
           {title}
         </h2>
         <div className="flex items-center gap-2">

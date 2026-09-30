@@ -1,17 +1,18 @@
 // TEXTES DU HERO (haut de la page d'accueil). Modifie seulement ce qui est entre guillemets.
 // Un champ laissé vide ("") n'est pas affiché. Garde les guillemets, les virgules et les accolades.
-// surtitre      : petite ligne au-dessus du titre (optionnelle).
-// titre         : le grand titre. Écris \n pour forcer un retour à la ligne.
-// titreAccent   : partie du titre en doré italique (optionnelle) ; si elle n'est pas dans le titre, elle s'ajoute à la fin.
-// sousTitre     : la phrase sous le titre. Un texte entre [crochets] s'affiche comme « à remplir ».
+// Le grand « PALAIS DU STYLE » est fixe ; ces textes s'affichent autour de lui.
+// surtitre      : petite étiquette au-dessus du nom (optionnelle), ex. "(00) — Collection automne".
+// titre         : l'accroche en serif italique. Écris \n pour forcer un retour à la ligne.
+// titreAccent   : partie de l'accroche en or (optionnelle) ; si elle n'est pas dans l'accroche, elle s'ajoute à la fin.
+// sousTitre     : la phrase sous l'accroche. Un texte entre [crochets] s'affiche comme « à remplir ».
 // ctaPrincipal  : bouton plein : "texte" affiché et "lien" (ex. /boutique, ou https://… pour un autre site).
 // ctaSecondaire : bouton contour : même principe.
 // badges        : 3 courtes phrases au maximum, affichées sous les boutons.
 {
-  "surtitre": "",
-  "titre": "T'AS JAMAIS VU UNE QUALITÉ COMME ÇA !\nC'EST LA FRAPPE ! 🔥",
-  "titreAccent": "FRAPPE",
-  "sousTitre": "Paires de chaussures, sacs, sapes : une qualité incroyable, jamais vue ! Livré en 4 jours.",
+  "surtitre": "(00) — Collection [SAISON]",
+  "titre": "Mieux. Moins cher.\nPlus vite.",
+  "titreAccent": "Moins cher.",
+  "sousTitre": "Sneakers, sacs, vêtements et accessoires de qualité. Livré en 4 jours, on te répond 24h/24.",
   "ctaPrincipal": { "texte": "JE VEUX VOIR", "lien": "/boutique" },
   "ctaSecondaire": { "texte": "ÉCRIS-NOUS", "lien": "/conseiller" },
   "badges": []

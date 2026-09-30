@@ -1,37 +1,33 @@
 import { Hero } from "@/components/home/Hero";
-import { NewArrivals } from "@/components/home/NewArrivals";
-import { Newsletter } from "@/components/home/Newsletter";
-import { Advisor, PriceMatch, Promises, Reviews, WhyCheaper } from "@/components/home/Sections";
-import { CategoryTiles } from "@/components/home/CategoryTiles";
-import { ThreeRoot } from "@/components/three/Lazy3D";
-import { categories, newArrivals, products } from "@/lib/catalog";
-import { site } from "@/lib/config";
-import { modelAvailable } from "@/lib/models";
+import { Manifesto } from "@/components/home/Manifesto";
+import { Drop } from "@/components/home/Drop";
+import { Cinema } from "@/components/home/Cinema";
+import { Reply } from "@/components/home/Reply";
+import { Categories } from "@/components/home/Categories";
+import { Reviews } from "@/components/home/Reviews";
+import { newArrivals, products } from "@/lib/catalog";
 
 export default function Home() {
-  // tuiles : modèle 3D si le fichier existe (vérifié au build), image fixe si elle existe
-  const tiles = categories.map((c) => {
-    const m = site.categoryModels[c.handle];
-    return {
-      ...c,
-      count: products.filter((p) => p.category === c.handle).length,
-      model: m && modelAvailable(m.model) ? { model: m.model, poster: modelAvailable(m.poster) ? m.poster : null } : null,
-    };
-  });
+  // le drop : les nouveautés d'abord, complétées jusqu'à 6 pièces
+  const fresh = newArrivals();
+  const drop = [...fresh, ...products.filter((p) => !fresh.includes(p))].slice(0, 6).map((p) => ({
+    id: p.id,
+    handle: p.handle,
+    title: p.title,
+    color: p.color,
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+    image: p.images[0] ?? null,
+  }));
   return (
     <>
-      {/* un seul canvas WebGL pour toute la page, monté seulement si une zone demande la 3D */}
-      <ThreeRoot />
       <Hero />
-      <Promises />
-      <CategoryTiles tiles={tiles} />
-      <NewArrivals items={newArrivals()} />
-      <NewArrivals items={products.filter((p) => p.category === "sneakers")} title="LES PAIRES QU'ON ADORE" id="paires" href="/boutique/sneakers" />
-      <WhyCheaper />
-      <PriceMatch />
-      <Advisor />
+      <Manifesto />
+      <Drop items={drop} />
+      <Cinema />
+      <Reply />
+      <Categories />
       <Reviews />
-      <Newsletter />
     </>
   );
 }

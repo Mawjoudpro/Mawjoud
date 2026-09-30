@@ -2,7 +2,7 @@
  "categories": [
   {
    "handle": "sneakers",
-   "title": "Paires de chaussures",
+   "title": "Sneakers",
    "subs": [
     "Basses",
     "Running",
@@ -45,7 +45,7 @@
   {
    "id": "demo-01",
    "handle": "sneakers-basses-cuir-noir",
-   "title": "Paire basse cuir noir",
+   "title": "Sneakers basses cuir noir",
    "category": "sneakers",
    "subcategory": "Basses",
    "color": "Noir",
@@ -95,25 +95,25 @@
    "images": [
     {
      "url": null,
-     "altText": "Paire basse cuir noir, vue 1",
+     "altText": "Sneakers basses cuir noir, vue 1",
      "tone": 1,
      "caption": "[PHOTO PRODUIT FOND BLANC]"
     },
     {
      "url": null,
-     "altText": "Paire basse cuir noir, vue 2",
+     "altText": "Sneakers basses cuir noir, vue 2",
      "tone": 2,
      "caption": "[PHOTO PORTÉE]"
     },
     {
      "url": null,
-     "altText": "Paire basse cuir noir, vue 3",
+     "altText": "Sneakers basses cuir noir, vue 3",
      "tone": 3,
      "caption": "[PHOTO DÉTAIL]"
     },
     {
      "url": null,
-     "altText": "Paire basse cuir noir, vue 4",
+     "altText": "Sneakers basses cuir noir, vue 4",
      "tone": 2,
      "caption": "[PHOTO DOS]"
     }
@@ -130,7 +130,7 @@
   {
    "id": "demo-02",
    "handle": "sneakers-running-daim",
-   "title": "Paire running daim",
+   "title": "Sneakers running daim",
    "category": "sneakers",
    "subcategory": "Running",
    "color": "Sable",
@@ -180,25 +180,25 @@
    "images": [
     {
      "url": null,
-     "altText": "Paire running daim, vue 1",
+     "altText": "Sneakers running daim, vue 1",
      "tone": 2,
      "caption": "[PHOTO PRODUIT FOND BLANC]"
     },
     {
      "url": null,
-     "altText": "Paire running daim, vue 2",
+     "altText": "Sneakers running daim, vue 2",
      "tone": 3,
      "caption": "[PHOTO PORTÉE]"
     },
     {
      "url": null,
-     "altText": "Paire running daim, vue 3",
+     "altText": "Sneakers running daim, vue 3",
      "tone": 4,
      "caption": "[PHOTO DÉTAIL]"
     },
     {
      "url": null,
-     "altText": "Paire running daim, vue 4",
+     "altText": "Sneakers running daim, vue 4",
      "tone": 2,
      "caption": "[PHOTO DOS]"
     }

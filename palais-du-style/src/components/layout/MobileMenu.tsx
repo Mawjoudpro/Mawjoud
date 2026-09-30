@@ -1,5 +1,6 @@
 "use client";
 
+import { MotionProvider } from "@/components/ui/MotionProvider";
 import Link from "next/link";
 import { AnimatePresence, m } from "framer-motion";
 import { categories, products } from "@/lib/catalog";
@@ -8,9 +9,9 @@ import { useOverlay } from "@/lib/useOverlay";
 import { IconClose, IconSearch, IconArrow } from "@/components/ui/Icons";
 import { Logotype } from "./Header";
 
-const ease = [0.2, 0.75, 0.15, 1] as const;
+import { ease } from "@/lib/motion";
 
-export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose: () => void; onSearch: () => void }) {
+function MobileMenuInner({ open, onClose, onSearch }: { open: boolean; onClose: () => void; onSearch: () => void }) {
   const ref = useOverlay<HTMLDivElement>(open, onClose);
   const links = [
     { href: "/boutique", label: "Nouveautés", n: products.length },
@@ -46,8 +47,8 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
             {links.map((l, i) => (
               <m.div key={l.href} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 + i * 0.04, duration: 0.4, ease }}>
                 <Link href={l.href} onClick={onClose} className="flex items-baseline justify-between border-b border-line py-4">
-                  <span className="font-serif text-[40px] leading-none">{l.label}</span>
-                  <span className="price text-small text-ink-2">{l.n}</span>
+                  <span className="font-display text-[44px] leading-none uppercase">{l.label}</span>
+                  <span className="font-mono text-micro text-ink-2">({String(l.n).padStart(2, "0")})</span>
                 </Link>
               </m.div>
             ))}
@@ -55,7 +56,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
 
           <div className="mt-auto grid gap-3 pt-10">
             <Link href="/conseiller" onClick={onClose} className="flex items-center justify-between py-2 text-body font-medium">
-              Parler à mon conseiller <IconArrow width={18} />
+              On te répond {site.availability} <IconArrow width={18} />
             </Link>
             <a href={site.whatsappUrl} target="_blank" rel="noopener" className="btn btn-ink w-full">
               Écrire sur WhatsApp
@@ -67,5 +68,14 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
         </m.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/** Avec son propre fournisseur d'animations : chargé à la demande, hors du JavaScript initial. */
+export function MobileMenu(props: Parameters<typeof MobileMenuInner>[0]) {
+  return (
+    <MotionProvider>
+      <MobileMenuInner {...props} />
+    </MotionProvider>
   );
 }
