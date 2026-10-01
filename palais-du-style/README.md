@@ -40,7 +40,7 @@ Pensée d'abord pour un téléphone de 390 px, puis adaptée au desktop.
 | 2 | Manifeste | `home/Manifesto.tsx` | mots révélés au scroll (20 % → 100 %) | idem |
 | 3 | Le drop | `home/Drop.tsx` | carrousel natif au doigt (scroll-snap) | section épinglée, défilement horizontal (GSAP) |
 | 4 | Moment cinéma | `home/Cinema.tsx` | zoom 1 → 1,4 + fondu, flou seulement si l'appareil est puissant | zoom + fondu + flou |
-| 5 | On te répond 24h/24 | `home/Reply.tsx` | téléphone fixe, 4 étapes, texte dessous | texte à gauche / à droite |
+| 5 | On te répond 24h/24 | `home/Reply.tsx`, `home/ChatPhone.tsx` | téléphone fixe, conversation en 4 étapes, texte dessous | texte à gauche / à droite |
 | 6 | Catégories | `home/Categories.tsx` | 2 × 2 | 4 colonnes |
 | 7 | Avis + pied de page | `home/Reviews.tsx`, `layout/Footer.tsx` | newsletter, réseaux, mentions | idem |
 
@@ -48,6 +48,12 @@ Le nom « PALAIS DU STYLE » remplit exactement la largeur grâce aux unités de
 mesurées d'Anton (constantes dans `Hero.tsx`, `Reply.tsx`, `Categories.tsx`, `Footer.tsx`).
 Le scroll natif n'est jamais bloqué : les effets lisent la progression (`src/lib/scroll-progress.ts`,
 `ui/ScrollVar.tsx`) ; Lenis (`layout/SmoothScroll.tsx`) ne s'active que sur desktop à la souris.
+
+Conversation (`home/ChatPhone.tsx`) : le client écrit à droite, Palais du Style répond à gauche. À chaque étape,
+une courte scène se joue : envoi, coches grises puis or quand c'est lu, statut « en ligne » → « écrit… » avec les
+trois points, réponse. Les bulles précédentes remontent par une animation `transform` (aucun recalcul de mise en
+page) : vérifié à 390 px avec le processeur ralenti 4×, aucune image au-delà de 33 ms. Les textes sont dans
+`MESSAGES`, en haut du fichier.
 
 ## Structure
 ```
@@ -61,6 +67,7 @@ src/
     shop/ product/ cart/  boutique, fiche produit, panier (menu, recherche et panier chargés à la 1re ouverture)
     three/SneakerScene    scène 3D de la sneaker du hero
     ui/                   PhotoSlot, Price, SectionLabel, ScrollVar, icônes, toast
+    ui/chat/              conversation : ChatBubble (queue, heure, coches), TypingIndicator, ChatImage, DateSeparator
   data/catalog.json       12 produits de démo, 4 catégories
   lib/                    config, catalogue, textes du hero, progression de scroll, tests 3D
 ```

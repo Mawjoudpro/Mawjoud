@@ -345,3 +345,26 @@ h3 {
     animation: none;
   }
 }
+
+/* conversation : points « écrit… » (transform + opacité seulement : fluide même sur un téléphone modeste) */
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+.typing-dot {
+  animation: typing-dot 1.2s var(--ease-out) infinite;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typing-dot {
+    animation: none;
+  }
+}
