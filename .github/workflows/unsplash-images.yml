@@ -1,0 +1,37 @@
+# Prépare les photos temporaires Unsplash (palais-du-style/scripts/unsplash/process.py)
+# et enregistre les WebP dans palais-du-style/public/images/placeholder/.
+# Se lance quand le script change, ou à la main (onglet Actions → « Photos Unsplash » → Run workflow).
+name: Photos Unsplash
+
+on:
+  push:
+    paths:
+      - "palais-du-style/scripts/unsplash/process.py"
+      - ".github/workflows/unsplash-images.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unsplash-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow==11.*
+      - run: python palais-du-style/scripts/unsplash/process.py
+      - name: Enregistrer les images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add palais-du-style/public/images/placeholder palais-du-style/scripts/unsplash/preview
+          git diff --cached --quiet && exit 0
+          git commit -m "Photos Unsplash : WebP régénérés par l'Action"
+          git push
