@@ -26,9 +26,15 @@ OUT = ROOT / "public" / "images" / "placeholder"
 PREVIEW = Path(__file__).resolve().parent / "preview"
 
 PHOTOS = [
-    {"file": "campagne", "id": "-Q4W2rAuKsw", "src": "photo-1549699143-b6bf1cde4605", "ratio": (16, 9), "size": 1600, "focus": (0.5, 0.5)},
-    {"file": "ambiance", "id": "-dX49A6SU9w", "src": "photo-1541371763992-a9d00e78b865", "ratio": (16, 9), "size": 1600, "focus": (0.5, 0.5)},
-    {"file": "sneakers", "id": "zadrrJWgUDQ", "src": "photo-1632497775901-50ba4637399f", "ratio": (4, 5), "size": 900, "focus": (0.5, 0.5)},
+    {"file": "campagne", "id": "-Q4W2rAuKsw", "src": "photo-1549699143-b6bf1cde4605", "ratio": (16, 9), "size": 1600, "focus": (0.5, 0.5),
+     # enseignes à droite, affiche du bus
+     "masks": [(0.89, 0.47, 1.0, 0.62), (0.82, 0.61, 0.875, 0.67)]},
+    {"file": "ambiance", "id": "-dX49A6SU9w", "src": "photo-1541371763992-a9d00e78b865", "ratio": (16, 9), "size": 1600, "focus": (0.5, 0.5),
+     # enseignes UGC Danton, HSBC (×2), boutique au bord droit
+     "masks": [(0.07, 0.465, 0.155, 0.515), (0.635, 0.5, 0.68, 0.54), (0.71, 0.485, 0.755, 0.53), (0.955, 0.53, 1.0, 0.565)]},
+    {"file": "sneakers", "id": "zadrrJWgUDQ", "src": "photo-1632497775901-50ba4637399f", "ratio": (4, 5), "size": 900, "focus": (0.5, 0.5),
+     # marque au talon, bande latérale
+     "masks": [(0.555, 0.545, 0.632, 0.615), (0.44, 0.3, 0.55, 0.47)]},
     {"file": "doudoune", "id": "uLWk3kDXBgU", "src": "photo-1614031679232-0dae776a72ee", "ratio": (4, 5), "size": 900, "focus": (0.5, 0.5)},
     {"file": "sac", "id": "XwjrPFW7xw0", "src": "photo-1624687943971-e86af76d57de", "ratio": (4, 5), "size": 900, "focus": (0.5, 0.5)},
     {"file": "casquette", "id": "gcZcCqpGEw0", "src": "photo-1656166229825-8bb5c3214111", "ratio": (4, 5), "size": 900, "focus": (0.5, 0.5)},
