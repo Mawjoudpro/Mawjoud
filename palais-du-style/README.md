@@ -58,6 +58,8 @@ page) : vérifié à 390 px avec le processeur ralenti 4×, aucune image au-del�
 ## Structure
 ```
 content/hero-products.json  vitrine du hero : pièces, prix, liens, texte circulaire (modifiable sur GitHub)
+content/images.json         photos temporaires : fichier, emplacement, photographe (modifiable sur GitHub)
+scripts/unsplash/process.py préparation des photos Unsplash (lancé par la GitHub Action « Photos Unsplash »)
 assets/fonts/Anton…ttf     police servant à tracer le texte circulaire au build (licence OFL)
 src/
   app/                    pages (accueil, boutique, boutique/[categorie], produit/[handle],
@@ -66,7 +68,7 @@ src/
     home/                 vitrine (hero), manifeste, drop, cinéma, « on te répond », catégories, avis
     layout/               bandeau, en-tête (+ horloge, progression), menu mobile, recherche, pied de page, Lenis
     shop/ product/ cart/  boutique, fiche produit, panier (menu, recherche et panier chargés à la 1re ouverture)
-    ui/                   PhotoSlot, Price, SectionLabel, ScrollVar, icônes, toast
+    ui/                   PhotoSlot, RevealInit (apparition des photos), Price, SectionLabel, ScrollVar, icônes, toast
     ui/chat/              conversation : ChatBubble (queue, heure, coches), TypingIndicator, ChatImage, DateSeparator
   data/catalog.json       12 produits de démo, 4 catégories
   lib/                    config, catalogue, vitrine (hero-products, ring-glyphs), progression de scroll, tests 3D
@@ -88,6 +90,23 @@ version en ligne reste en place.
 - 3D : si `model` est renseigné et que l'appareil a plus de 4 cœurs (et sans `prefers-reduced-motion`), un seul canvas
   (`home/HeroModel.tsx`, éclairage « studio ») remplace l'image de la pièce centrale ; sinon, l'image.
 - Mesuré à 390 px, processeur ralenti 4× : 60 images/s (médiane 17 ms), aucune tâche longue.
+
+## Photos temporaires (`content/images.json`)
+Photos Unsplash (licence gratuite, usage commercial autorisé) en attendant les photos de la boutique : moment cinéma
+(campagne 16:9), fond du pied de page (ambiance, voile noir 60 %), 4 catégories et 5 cartes du drop (4:5). La pièce
+centrale du hero reste la photo détourée du client. Mention « Photos temporaires : Unsplash » en pied de page tant que
+`creditUnsplash` vaut `true`.
+
+- Préparation : `scripts/unsplash/process.py`, lancé par l'Action GitHub « Photos Unsplash » (onglet Actions →
+  Run workflow, ou automatiquement quand le script change). Téléchargement, recadrage centré sur le sujet, même
+  étalonnage léger partout (contraste +5 %, saturation -10 %, un peu de chaleur), floutage discret des logos,
+  WebP qualité 80 (1600 px campagne et ambiance, 900 px produits) dans `public/images/placeholder/`. Aperçus des
+  originaux dans `scripts/unsplash/preview/` pour régler le cadrage (`focus`, `zoom`) et les zones floutées (`masks`).
+- Remplacer une photo : déposer le fichier dans `public/` et changer `fichier`, `largeur`, `hauteur` dans
+  `content/images.json`. Les correspondances catégorie → photo et carte du drop → photo sont dans le même fichier.
+- Apparition : rideau qui se lève (clip-path) et dézoom 1,08 → 1, une seule fois à l'entrée dans l'écran
+  (`ui/RevealInit.tsx`) ; aucune animation avec `prefers-reduced-motion`. Images en lazy (hors écran au chargement),
+  cadres à ratio fixe : aucun décalage de mise en page.
 
 ## Réglages utiles (`src/lib/config.ts`)
 - `deliveryDelay` (« 4 jours »), `availability` (« 24h/24 ») : repris dans le bandeau, les sections et les pages.

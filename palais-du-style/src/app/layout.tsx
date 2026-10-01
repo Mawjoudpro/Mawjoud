@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Toast } from "@/components/ui/Toast";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { RevealInit } from "@/components/ui/RevealInit";
 import { categories } from "@/lib/catalog";
 
 // nom et gros titres : grotesque condensée très grasse
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <CartProvider>
           <SmoothScroll />
+          <RevealInit />
           <Header categories={categories} />
           <main id="contenu" className="min-h-[60vh]">
             {children}

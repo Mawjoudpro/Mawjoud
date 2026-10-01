@@ -1,0 +1,87 @@
+// Photos TEMPORAIRES (Unsplash, licence gratuite, usage commercial autorisé) en attendant les vraies photos.
+// Pour remplacer une photo : déposer le nouveau fichier dans public/images/placeholder/ (ou ailleurs dans public/)
+// et changer « fichier » ci-dessous. largeur/hauteur = dimensions réelles du fichier.
+// Quand toutes les photos sont celles de la boutique, passer « creditUnsplash » à false (retire la mention du pied de page).
+{
+  "creditUnsplash": true,
+  "emplacements": {
+    "campagne": {
+      "ou": "Moment cinéma « Le style, sans le prix »",
+      "fichier": "/images/placeholder/campagne.webp",
+      "largeur": 1600,
+      "hauteur": 900,
+      "alt": "L'Arc de Triomphe, la nuit",
+      "photographe": "Dyana Wing So",
+      "unsplash": "https://unsplash.com/photos/-Q4W2rAuKsw"
+    },
+    "ambiance": {
+      "ou": "Fond du pied de page (voile noir 60 %)",
+      "fichier": "/images/placeholder/ambiance.webp",
+      "largeur": 1600,
+      "hauteur": 900,
+      "alt": "",
+      "photographe": "Adrien Olichon",
+      "unsplash": "https://unsplash.com/photos/-dX49A6SU9w"
+    },
+    "sneakers": {
+      "ou": "Catégorie Sneakers + carte du drop « Sneakers basses cuir noir »",
+      "fichier": "/images/placeholder/sneakers.webp",
+      "largeur": 900,
+      "hauteur": 1125,
+      "alt": "Paire de sneakers noires",
+      "photographe": "Adrian Regeci",
+      "unsplash": "https://unsplash.com/photos/zadrrJWgUDQ"
+    },
+    "doudoune": {
+      "ou": "Catégorie Vêtements + carte du drop « Veste zippée technique »",
+      "fichier": "/images/placeholder/doudoune.webp",
+      "largeur": 900,
+      "hauteur": 1125,
+      "alt": "Veste zippée noire portée",
+      "photographe": "Khalid Boutchich",
+      "unsplash": "https://unsplash.com/photos/uLWk3kDXBgU"
+    },
+    "sac": {
+      "ou": "Catégorie Sacs + carte du drop « Sac cabas cuir »",
+      "fichier": "/images/placeholder/sac.webp",
+      "largeur": 900,
+      "hauteur": 1125,
+      "alt": "Sac en cuir marron",
+      "photographe": "Ugluk Potroshitel",
+      "unsplash": "https://unsplash.com/photos/XwjrPFW7xw0"
+    },
+    "casquette": {
+      "ou": "Catégorie Accessoires + carte du drop « Casquette laine »",
+      "fichier": "/images/placeholder/casquette.webp",
+      "largeur": 900,
+      "hauteur": 1125,
+      "alt": "Casquette portée",
+      "photographe": "Benjamin R.",
+      "unsplash": "https://unsplash.com/photos/gcZcCqpGEw0"
+    },
+    "hoodie": {
+      "ou": "Carte du drop « Hoodie molleton épais »",
+      "fichier": "/images/placeholder/hoodie.webp",
+      "largeur": 900,
+      "hauteur": 1125,
+      "alt": "Hoodie gris porté",
+      "photographe": "Logan Weaver",
+      "unsplash": "https://unsplash.com/photos/N6BP12FB_XU"
+    }
+  },
+  // quelle photo pour quelle catégorie (handle de la catégorie → emplacement)
+  "categories": {
+    "sneakers": "sneakers",
+    "vetements": "doudoune",
+    "sacs": "sac",
+    "accessoires": "casquette"
+  },
+  // quelle photo pour quelle carte du drop (handle du produit → emplacement), dans l'ordre d'affichage
+  "drop": {
+    "sneakers-basses-cuir-noir": "sneakers",
+    "veste-zippee-technique": "doudoune",
+    "sac-cabas-cuir": "sac",
+    "hoodie-molleton-epais": "hoodie",
+    "casquette-laine": "casquette"
+  }
+}

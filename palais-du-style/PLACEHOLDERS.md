@@ -9,9 +9,9 @@ et **`src/data/catalog.json`** (produits).
 |---|---|---|
 | `[PRIX]` des 5 pièces de la vitrine | sous la pièce centrale du hero | `content/hero-products.json` → `prix` |
 | Visuels temporaires de la vitrine | sac et casquette (rendus des modèles 3D), doudoune et hoodie (illustrations) | remplacer les fichiers de `public/images/hero/` par les photos détourées du client |
-| `[PHOTO CAMPAGNE]` | moment cinéma | `src/components/home/Cinema.tsx` (remplacer le bloc commenté par une `<Image>`) |
+| Photos temporaires Unsplash | moment cinéma, fond du pied de page, 4 catégories, 5 cartes du drop | `content/images.json` (remplacer `fichier` par la vraie photo ; `creditUnsplash: false` quand il n'en reste plus) |
 | `[PHOTO DE LA PIÈCE]`, `[PRIX]` | téléphone de la section « On te répond 24h/24 » | `src/components/home/Reply.tsx` |
-| `[PHOTO CATÉGORIE]` | 4 tuiles catégories, méga-menu | `src/components/home/Categories.tsx`, `src/components/layout/Header.tsx` |
+| `[PHOTO CATÉGORIE]` | méga-menu | `src/components/layout/Header.tsx` |
 | `[AVIS CLIENT]`, `[PRÉNOM]`, `[VILLE]`, `[PIÈCE ACHETÉE]` | 3 avis | `src/components/home/Reviews.tsx`. **Uniquement de vrais avis.** |
 
 ## Réglages généraux — `src/lib/config.ts`

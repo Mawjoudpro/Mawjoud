@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { categories, products } from "@/lib/catalog";
+import { getImages } from "@/lib/placeholder-images";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { IconArrow } from "@/components/ui/Icons";
@@ -8,6 +9,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 /** 4 grandes tuiles photo : 2 × 2 sur mobile, 4 colonnes sur desktop. */
 export function Categories() {
+  const { categories: photos, byKey } = getImages();
   return (
     <section aria-labelledby="cat-title" className="bg-paper py-20 lg:py-32">
       <div className="wrap">
@@ -22,11 +24,12 @@ export function Categories() {
         <ul className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 lg:mt-14 lg:grid-cols-4 lg:gap-x-5">
           {categories.map((c) => {
             const count = products.filter((p) => p.category === c.handle).length;
+            const photo = byKey[photos[c.handle]];
             return (
               <li key={c.handle}>
                 <Link href={`/boutique/${c.handle}`} className="group block">
                   <div className="overflow-hidden">
-                    <PhotoSlot alt={`Catégorie ${c.title}`} caption="[Photo catégorie]" tone={c.tone} ratio="3/4" sizes="(min-width: 1024px) 25vw, 50vw" className="transition-transform duration-[900ms] ease-[var(--ease-out)] group-hover:scale-[1.04]" />
+                    <PhotoSlot src={photo?.src} alt={`Catégorie ${c.title}`} caption="[Photo catégorie]" tone={c.tone} ratio="4/5" sizes="(min-width: 1024px) 25vw, 50vw" className="transition-transform duration-[900ms] ease-[var(--ease-out)] group-hover:scale-[1.04]" />
                   </div>
                   <div className="mt-3 flex items-baseline justify-between gap-2">
                     <span className="font-display text-[26px] leading-none uppercase sm:text-[32px] lg:text-[44px]">{c.title}</span>

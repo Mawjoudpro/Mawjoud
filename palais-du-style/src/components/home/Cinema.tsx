@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { canShow3D } from "@/lib/three-gate";
 import { ScrollVar } from "@/components/ui/ScrollVar";
@@ -10,7 +11,7 @@ import { ScrollVar } from "@/components/ui/ScrollVar";
  * (même test que pour la 3D) ; sinon, zoom simple et fondu.
  * État final (sans JavaScript, ou prefers-reduced-motion) : image assombrie, phrase nette.
  */
-export function Cinema() {
+export function Cinema({ photo }: { photo?: { src: string; alt: string } | null }) {
   const [fx, setFx] = useState<"lite" | "full">("lite");
   useEffect(() => {
     if (canShow3D()) setFx("full"); // eslint-disable-line react-hooks/set-state-in-effect -- capacité de l'appareil, connue au navigateur seulement
@@ -19,10 +20,18 @@ export function Cinema() {
   return (
     <ScrollVar labelledBy="cine-phrase" className="relative h-[170svh] bg-black lg:h-[230vh]" start={0} end={1}>
       <div className="cine sticky top-0 h-[100svh] overflow-hidden" data-fx={fx}>
-        {/* [PHOTO CAMPAGNE] : remplacer ce bloc par <Image fill src="/photos/campagne.jpg" className="object-cover" /> */}
-        <div className="cine-zoom absolute inset-0 will-change-transform" role="img" aria-label="Photo de campagne Palais du Style">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,color-mix(in_srgb,var(--cream)_22%,var(--black))_0%,var(--black)_75%)]" />
-          <span className="absolute inset-x-0 top-[30%] text-center font-mono text-micro tracking-[0.04em] text-cream/70 uppercase">[Photo campagne]</span>
+        {/* photo de campagne : content/images.json → emplacements.campagne */}
+        <div className="cine-zoom absolute inset-0 will-change-transform">
+          {photo ? (
+            <div data-reveal="" className="absolute inset-0 overflow-hidden">
+              <Image src={photo.src} alt={photo.alt} fill sizes="(max-aspect-ratio: 16/9) 178vh, 100vw" className="reveal-img object-cover" />
+            </div>
+          ) : (
+            <div role="img" aria-label="Photo de campagne Palais du Style" className="absolute inset-0">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,color-mix(in_srgb,var(--cream)_22%,var(--black))_0%,var(--black)_75%)]" />
+              <span className="absolute inset-x-0 top-[30%] text-center font-mono text-micro tracking-[0.04em] text-cream/70 uppercase">[Photo campagne]</span>
+            </div>
+          )}
         </div>
         <div className="cine-veil absolute inset-0 bg-black" aria-hidden="true" />
         <div className="absolute inset-0 grid place-items-center px-[var(--gutter)]">

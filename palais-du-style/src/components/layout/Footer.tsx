@@ -1,10 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 import { categories } from "@/lib/catalog";
 import { site } from "@/lib/config";
+import { getImages } from "@/lib/placeholder-images";
 import { IconInstagram, IconSnapchat, IconTiktok } from "@/components/ui/Icons";
 import { NewsletterForm } from "./NewsletterForm";
 
 export function Footer() {
+  const { credit, byKey } = getImages();
+  const ambiance = byKey.ambiance;
   const cols = [
     { title: "Boutique", links: [{ href: "/boutique", label: "Nouveautés" }, ...categories.map((c) => ({ href: `/boutique/${c.handle}`, label: c.title }))] },
     { title: "Aide", links: [{ href: "/conseiller", label: `On te répond ${site.availability}` }, { href: "/livraison", label: "Livraison" }, { href: "/retours", label: "Retours" }] },
@@ -16,8 +20,20 @@ export function Footer() {
     { href: site.snapchatUrl, label: "Snapchat", Icon: IconSnapchat },
   ];
   return (
-    <footer className="overflow-hidden bg-black pt-20 pb-[calc(env(safe-area-inset-bottom)+24px)] text-cream lg:pt-28">
-      <div className="wrap">
+    <footer className="relative overflow-hidden bg-black pt-20 pb-[calc(env(safe-area-inset-bottom)+24px)] text-cream lg:pt-28">
+      {/* photo d'ambiance derrière la newsletter : voile noir 60 %, fondue dans le noir du pied de page */}
+      {ambiance && (
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[560px] lg:h-[620px]">
+          <div data-reveal="" className="absolute inset-0 overflow-hidden">
+            <Image src={ambiance.src} alt="" fill sizes="100vw" className="reveal-img object-cover" />
+          </div>
+          <div className="absolute inset-0 bg-black/60" />
+          {/* un peu plus sombre côté texte, pour la lecture */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent lg:bg-gradient-to-r lg:from-black/45 lg:via-black/20 lg:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-black" />
+        </div>
+      )}
+      <div className="wrap relative">
         {/* newsletter */}
         <div className="grid gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
           <div>
@@ -72,6 +88,12 @@ export function Footer() {
         <div className="mt-8 flex flex-col gap-4 border-t border-cream/15 pt-6 font-mono text-micro text-cream/60 lg:flex-row lg:items-center lg:justify-between">
           <p>
             © {new Date().getFullYear()} {site.name} · <span className="ph">{site.legal.company}</span> · SIRET <span className="ph">{site.legal.siret}</span> · <span className="ph">{site.legal.address}</span>
+            {credit && (
+              <>
+                <br />
+                Photos temporaires : Unsplash
+              </>
+            )}
           </p>
           <ul className="flex flex-wrap gap-2" aria-label="Moyens de paiement">
             {["CB", "Visa", "Mastercard", "Apple Pay"].map((m) => (
