@@ -2,7 +2,7 @@
 
 Boutique mode (sneakers, sacs, vêtements, accessoires) positionnée « la meilleure qualité au prix le plus bas ».
 Next.js 16 (App Router) · Tailwind CSS 4 · GSAP ScrollTrigger + Lenis (desktop) · Framer Motion (tiroirs, filtres) ·
-React Three Fiber + drei (sneaker du hero) · `<model-viewer>` (vue 3D produit).
+React Three Fiber + drei (3D optionnelle de la vitrine) · `<model-viewer>` (vue 3D produit).
 
 - Plan de design (palette, typos, wireframes) : [`PLAN.md`](./PLAN.md)
 - Liste des contenus à remplir : [`PLACEHOLDERS.md`](./PLACEHOLDERS.md)
@@ -36,7 +36,7 @@ Pensée d'abord pour un téléphone de 390 px, puis adaptée au desktop.
 ## Page d'accueil
 | # | Section | Fichier | Mobile | Desktop |
 |---|---|---|---|---|
-| 1 | Hero | `home/Hero.tsx` | nom sur 2 lignes, bouton visible sans scroller à 390 × 700 | nom sur 1 ligne |
+| 1 | Vitrine flottante | `home/Hero.tsx`, `home/HeroShowcase.tsx` | swipe (inertie, seuil 40 px), pièce centrale = 65 % de la largeur, nom + prix + bouton visibles à 390 × 700 | flèches, molette horizontale, clavier, inclinaison à la souris |
 | 2 | Manifeste | `home/Manifesto.tsx` | mots révélés au scroll (20 % → 100 %) | idem |
 | 3 | Le drop | `home/Drop.tsx` | carrousel natif au doigt (scroll-snap) | section épinglée, défilement horizontal (GSAP) |
 | 4 | Moment cinéma | `home/Cinema.tsx` | zoom 1 → 1,4 + fondu, flou seulement si l'appareil est puissant | zoom + fondu + flou |
@@ -44,8 +44,8 @@ Pensée d'abord pour un téléphone de 390 px, puis adaptée au desktop.
 | 6 | Catégories | `home/Categories.tsx` | 2 × 2 | 4 colonnes |
 | 7 | Avis + pied de page | `home/Reviews.tsx`, `layout/Footer.tsx` | newsletter, réseaux, mentions | idem |
 
-Le nom « PALAIS DU STYLE » remplit exactement la largeur grâce aux unités de conteneur (`cqw`) et aux largeurs
-mesurées d'Anton (constantes dans `Hero.tsx`, `Reply.tsx`, `Categories.tsx`, `Footer.tsx`).
+Les grands titres remplissent exactement la largeur grâce aux unités de conteneur (`cqw`) et aux largeurs
+mesurées d'Anton (constantes dans `Reply.tsx`, `Categories.tsx`, `Footer.tsx`).
 Le scroll natif n'est jamais bloqué : les effets lisent la progression (`src/lib/scroll-progress.ts`,
 `ui/ScrollVar.tsx`) ; Lenis (`layout/SmoothScroll.tsx`) ne s'active que sur desktop à la souris.
 
@@ -57,43 +57,48 @@ page) : vérifié à 390 px avec le processeur ralenti 4×, aucune image au-del�
 
 ## Structure
 ```
-content/hero.json         textes du hero (modifiables sur GitHub)
+content/hero-products.json  vitrine du hero : pièces, prix, liens, texte circulaire (modifiable sur GitHub)
+assets/fonts/Anton…ttf     police servant à tracer le texte circulaire au build (licence OFL)
 src/
   app/                    pages (accueil, boutique, boutique/[categorie], produit/[handle],
                           conseiller, cgv, mentions-legales, retours, livraison, 404, commande/confirmation)
   components/
-    home/                 hero, manifeste, drop, cinéma, « on te répond », catégories, avis
+    home/                 vitrine (hero), manifeste, drop, cinéma, « on te répond », catégories, avis
     layout/               bandeau, en-tête (+ horloge, progression), menu mobile, recherche, pied de page, Lenis
     shop/ product/ cart/  boutique, fiche produit, panier (menu, recherche et panier chargés à la 1re ouverture)
-    three/SneakerScene    scène 3D de la sneaker du hero
     ui/                   PhotoSlot, Price, SectionLabel, ScrollVar, icônes, toast
     ui/chat/              conversation : ChatBubble (queue, heure, coches), TypingIndicator, ChatImage, DateSeparator
   data/catalog.json       12 produits de démo, 4 catégories
-  lib/                    config, catalogue, textes du hero, progression de scroll, tests 3D
+  lib/                    config, catalogue, vitrine (hero-products, ring-glyphs), progression de scroll, tests 3D
 ```
 
-## Textes du hero (`content/hero.json`)
-Modifiables sans toucher au code, y compris directement sur GitHub (icône crayon, puis « Commit changes ») :
-Vercel redéploie tout seul en 1 à 2 minutes. Chaque champ est expliqué en haut du fichier ; un champ vide n'est pas
-affiché. La taille du titre s'adapte à sa longueur (3 lignes au plus sur mobile). Si le fichier est mal formé
-(guillemet ou virgule oubliés), le déploiement échoue avec un message clair et la version précédente reste en ligne.
-Lecture : `src/lib/hero-content.ts`.
+## Vitrine du hero (`content/hero-products.json`)
+Modifiable sans toucher au code, y compris directement sur GitHub (icône crayon, puis « Commit changes ») : Vercel
+redéploie tout seul en 1 à 2 minutes. Pour chaque pièce : nom, prix, lien, image détourée (`public/images/hero/`,
+PNG ou WebP transparent, 1200 px de haut max), `model` .glb optionnel et `rotation` (-6 à 6°). Le texte circulaire et
+le texte du bouton sont aussi dans ce fichier. Un fichier mal formé arrête le déploiement avec un message clair : la
+version en ligne reste en place.
+
+- Carrousel sur un arc (`home/HeroShowcase.tsx`) : seuls `transform` et `opacity` sont animés (600 ms,
+  `cubic-bezier(0.22, 1, 0.36, 1)`) ; pendant le geste, les positions sont écrites directement (pas de rendu React).
+  Les voisines sont estompées par un voile crème découpé à leur forme (pas de transparence : rien ne se voit à travers).
+- Défilement automatique toutes les 5 s ; pause au survol, hors écran, onglet caché ; arrêt dès que l'on prend la main.
+- Inclinaison : souris (6° max) ; gyroscope sur Android (4° max) ; pas de demande d'autorisation imposée sur iOS.
+- Texte circulaire : tracé en vecteurs au build (`src/lib/ring-glyphs.ts`, police Anton), il tourne en CSS (40 s).
+- 3D : si `model` est renseigné et que l'appareil a plus de 4 cœurs (et sans `prefers-reduced-motion`), un seul canvas
+  (`home/HeroModel.tsx`, éclairage « studio ») remplace l'image de la pièce centrale ; sinon, l'image.
+- Mesuré à 390 px, processeur ralenti 4× : 60 images/s (médiane 17 ms), aucune tâche longue.
 
 ## Réglages utiles (`src/lib/config.ts`)
 - `deliveryDelay` (« 4 jours »), `availability` (« 24h/24 ») : repris dans le bandeau, les sections et les pages.
 - `freeShippingThreshold` : seuil de livraison offerte (en €). Active la barre de progression du panier.
 - `returnsDelay`, `whatsappUrl`, `snapchatUrl`, `tiktokUrl`, `instagramUrl`, `legal`.
-- `heroModel` : chemin de la sneaker 3D du hero.
 
 ## 3D
-Une seule scène 3D : la sneaker qui flotte sur le nom, dans le hero (`home/HeroSneaker.tsx`, `three/SneakerScene.tsx`).
-- Sans fichier `public/models/sneaker.glb`, le hero affiche l'emplacement `[SNEAKER 3D]`. Le fichier est détecté
-  **au build** (`src/lib/models.ts`) : il suffit de le pousser sur GitHub, Vercel redéploie.
-- Préparer le modèle : déposer `assets/models/sneaker-source.glb`, puis `npm run optimize:model sneaker`
-  (normales lisses, textures WebP 1024 px, compression Meshopt). Viser moins de 1 Mo. Aucune marque visible.
-- Image fixe optionnelle `public/models/sneaker-poster.webp` (même cadrage) : affichée pendant le chargement.
-- La 3D arrive après le texte (premier geste ou 2,5 s de calme), se met en pause hors écran, et reste désactivée
-  si `prefers-reduced-motion`, 4 cœurs ou moins, `deviceMemory` ≤ 4, économie de données ou pas de WebGL.
+- Vitrine du hero : modèle .glb optionnel par pièce (voir plus haut).
+- Préparer un modèle : déposer `assets/models/<nom>-source.glb`, puis `npm run optimize:model <nom>` (normales lisses,
+  textures WebP 1024 px, compression Meshopt). Viser moins de 1 Mo. Aucune marque visible.
+- Fiche produit : vue 3D / réalité augmentée avec `<model-viewer>` quand le produit a un `model3d`.
 
 ## Brancher Shopify plus tard
 Les types de `src/lib/catalog.ts` suivent la Storefront API (`handle`, `title`, `variants[].availableForSale`,

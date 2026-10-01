@@ -98,7 +98,7 @@ export function Header({ categories }: { categories: Category[] }) {
         onKeyDown={(e) => e.key === "Escape" && setMega(null)}
       >
         <div
-          className={`wrap grid grid-cols-[auto_1fr_auto] items-center transition-[height] duration-300 ease-[var(--ease-soft)] lg:gap-x-8 ${
+          className={`wrap grid grid-cols-[1fr_auto_1fr] items-center lg:grid-cols-[auto_1fr_auto] transition-[height] duration-300 ease-[var(--ease-soft)] lg:gap-x-8 ${
             scrolled ? "h-14" : "h-16 lg:h-[72px]"
           }`}
         >
@@ -129,7 +129,7 @@ export function Header({ categories }: { categories: Category[] }) {
           </div>
 
           {/* centre : logotype */}
-          <Link href="/" aria-label="Palais du Style, accueil" className="ml-1 justify-self-start lg:ml-0 lg:justify-self-center" onMouseEnter={scheduleClose}>
+          <Link href="/" aria-label="Palais du Style, accueil" className="justify-self-center" onMouseEnter={scheduleClose}>
             <Logotype small={scrolled} />
           </Link>
 

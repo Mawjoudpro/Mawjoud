@@ -1,0 +1,22 @@
+// VITRINE DU HERO (haut de la page d'accueil). Modifie seulement ce qui est entre guillemets.
+// Garde les guillemets, les virgules et les accolades. Un champ laissé vide ("") n'est pas affiché.
+// texteCirculaire : le texte or qui tourne autour du produit (il est répété pour faire le tour).
+// bouton          : le texte du bouton sous chaque produit.
+// produits        : la liste des pièces du carrousel, dans l'ordre (la première est au centre au chargement).
+//   nom      : nom affiché sous la pièce.
+//   prix     : prix affiché (ex. "89 €"). Un texte entre [crochets] s'affiche comme « à remplir ».
+//   lien     : page ouverte par le bouton (ex. /boutique/sneakers).
+//   image    : image détourée (PNG ou WebP transparent, 1200 px de haut max) dans public/images/hero/.
+//   model    : (optionnel) modèle 3D .glb dans public/models/ ; affiché à la place de l'image sur un appareil puissant.
+//   rotation : (optionnel) inclinaison de la pièce au centre, entre -6 et 6 (degrés).
+{
+  "texteCirculaire": "MIEUX · MOINS CHER · PLUS VITE · ",
+  "bouton": "Voir la pièce",
+  "produits": [
+    { "nom": "Sneakers cuir verni noir", "prix": "[PRIX]", "lien": "/boutique/sneakers", "image": "/images/hero/sneakers.webp", "model": "", "rotation": -6 },
+    { "nom": "Sac bandoulière léopard", "prix": "[PRIX]", "lien": "/boutique/sacs", "image": "/images/hero/sac.webp", "model": "", "rotation": 4 },
+    { "nom": "Doudoune matelassée", "prix": "[PRIX]", "lien": "/boutique/vetements", "image": "/images/hero/doudoune.webp", "model": "", "rotation": -3 },
+    { "nom": "Casquette coton", "prix": "[PRIX]", "lien": "/boutique/accessoires", "image": "/images/hero/casquette.webp", "model": "", "rotation": 6 },
+    { "nom": "Hoodie épais", "prix": "[PRIX]", "lien": "/boutique/vetements", "image": "/images/hero/hoodie.webp", "model": "", "rotation": -4 }
+  ]
+}

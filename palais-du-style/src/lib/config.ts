@@ -31,9 +31,6 @@ export const site = {
     address: "[ADRESSE]",
     email: "[E-MAIL]",
   },
-
-  /** Sneaker 3D du hero : sans fichier, le hero affiche un emplacement réservé. */
-  heroModel: "/models/sneaker.glb",
 } as const;
 
 /** Bandeau défilant en haut du site (séparés par ✦). */

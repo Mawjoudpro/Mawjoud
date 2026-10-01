@@ -1,14 +1,14 @@
 # Placeholders à remplir avant la mise en ligne
 
 Tous les placeholders sont affichés entre crochets et soulignés en pointillés or sur le site.
-La plupart se règlent dans **`src/lib/config.ts`** (réglages), **`content/hero.json`** (textes du hero)
+La plupart se règlent dans **`src/lib/config.ts`** (réglages), **`content/hero-products.json`** (vitrine du hero)
 et **`src/data/catalog.json`** (produits).
 
 ## Accueil
 | Placeholder | Où | Fichier |
 |---|---|---|
-| `[SAISON]` | étiquette au-dessus du nom (« (00) — Collection [SAISON] ») | `content/hero.json` → `surtitre` |
-| `[SNEAKER 3D]` | emplacement de la sneaker 3D, sur le nom | déposer `public/models/sneaker.glb` (voir README, section 3D) |
+| `[PRIX]` des 5 pièces de la vitrine | sous la pièce centrale du hero | `content/hero-products.json` → `prix` |
+| Visuels temporaires de la vitrine | sac et casquette (rendus des modèles 3D), doudoune et hoodie (illustrations) | remplacer les fichiers de `public/images/hero/` par les photos détourées du client |
 | `[PHOTO CAMPAGNE]` | moment cinéma | `src/components/home/Cinema.tsx` (remplacer le bloc commenté par une `<Image>`) |
 | `[PHOTO DE LA PIÈCE]`, `[PRIX]` | téléphone de la section « On te répond 24h/24 » | `src/components/home/Reply.tsx` |
 | `[PHOTO CATÉGORIE]` | 4 tuiles catégories, méga-menu | `src/components/home/Categories.tsx`, `src/components/layout/Header.tsx` |
