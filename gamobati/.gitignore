@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+# Voix brutes et générées : on ne les versionne pas (données personnelles).
+voix/*.wav
+voix/*.m4a
+voix/*.mp3

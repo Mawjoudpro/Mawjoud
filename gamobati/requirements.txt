@@ -1,0 +1,5 @@
+# Python 3.11 — voix (Chatterbox) et horodatage (faster-whisper)
+chatterbox-tts==0.1.7
+faster-whisper==1.2.1
+torch==2.6.0
+torchaudio==2.6.0
